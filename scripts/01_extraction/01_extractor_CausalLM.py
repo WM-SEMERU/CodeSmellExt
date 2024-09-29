@@ -9,14 +9,14 @@ def default_params():
         'dataset': {
             'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
             'content_column': 'code', 
-            'number_samples': 55,
+            'number_samples': 156151,
         },
         'default_max_position_embeddings' : 16384,
-        'output_path': '../data/raw_logits',
-        'preprocessed_dataset_dir' : '../datax/code_smells/dataset_preprocessing',
-        'cache_dir': '../datax/hugging_face_cache',
-        'log_file': '../datax/code_smells/logit_extraction.log', 
-        'callbacks_dir' : '../datax/code_smells/callbacks',
+        'output_path': '/workspaces/CodeSmells/data/raw_logits',
+        'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
+        'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
+        'log_file': '/workspaces/CodeSmells/datax/code_smells/logit_extraction.log', 
+        'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
         'causal_models': {
             'M1': 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
             'M2': 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3

@@ -12,9 +12,9 @@ def default_params():
             'number_samples': 156151,
         },
         'default_max_position_embeddings' : 16384, ### CodeLlama Limit. 
-        'preprocessed_dataset_dir': '../datax/code_smells/dataset_preprocessing',
-        'cache_dir': '../datax/hugging_face_cache',
-        'log_file': '../datax/code_smells/dataset_preprocessing.log', 
+        'preprocessed_dataset_dir': '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
+        'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
+        'log_file': '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing.log', 
         'causal_models': {
             'M1': 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
             'M2': 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3
