@@ -1,0 +1,2 @@
+nohup python3 -u /workspaces/CodeSmells/scripts/logit_extraction/02_data_engineering-CodeLlama.py > /workspaces/CodeSmells/scripts/logit_extraction/02_data_engineering-CodeLlama.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/logit_extraction/02_data_engineering-Mistral.py > /workspaces/CodeSmells/scripts/logit_extraction/02_data_engineering-Mistral.txt &
