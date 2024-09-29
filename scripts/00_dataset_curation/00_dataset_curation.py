@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M1', 
+        'current_model': 'M2', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
