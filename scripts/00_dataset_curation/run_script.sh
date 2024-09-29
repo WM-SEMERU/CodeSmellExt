@@ -1,0 +1,1 @@
+nohup python3 -u /workspaces/CodeSmells/scripts/00_dataset_curation/00_dataset_curation.py > /workspaces/CodeSmells/scripts/00_dataset_curation/00_dataset_curation.txt &

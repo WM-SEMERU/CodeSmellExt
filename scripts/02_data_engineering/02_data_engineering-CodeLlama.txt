@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/workspaces/CodeSmells/scripts/logit_extraction/02_data_engineering-CodeLlama.py", line 45, in <module>
+    logging.basicConfig(
+  File "/usr/lib/python3.11/logging/__init__.py", line 2050, in basicConfig
+    h = FileHandler(filename, mode,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/usr/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspaces/CodeSmells/scripts/datax/code_smells/logit_extraction.log'
