@@ -1,0 +1,23 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/python-3-miniconda
+{
+	"name": "CodeSmells",
+	//"image": "vsc-codesyntaxconcept-b6450add37b45ea5771471ffb96f60f8daaa6c97232a67b0fc572cec6e1a9bef",
+	"build": { 
+		"context": "..",
+		"dockerfile": "Dockerfile",
+		"args": {
+			"NODE_VERSION": "none"
+		}
+	},
+	"mounts": [
+		"source=/nfs/semeru/code_smells,target=/workspaces/CodeSmells/data,type=bind,consistency=cached",
+		"source=/scratch/svelascodimate/datax,target=/workspaces/CodeSmells/datax,type=bind,consistency=cached", 
+		"source=/nfs/semeru/semeru_datasets/,target=/workspaces/CodeSmells/semeru-datasets,type=bind,consistency=cached"
+	],
+	"remoteEnv": {
+        //"MY_PROJECT_NAME": "The-container-name-here" //NOTE: make this name the same as the folder containing the repo
+        "MY_PROJECT_NAME": "CodeSmells"
+    },
+	"runArgs": ["--gpus", "all", "-e", "GRANT_SUDO=yes","--name", "${localWorkspaceFolderBasename}_svelascodimate", "--add-host", "host.docker.internal:host-gateway"]	
+}

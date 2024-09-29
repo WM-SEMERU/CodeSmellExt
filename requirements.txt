@@ -1,0 +1,14 @@
+nbdev
+pandas
+scipy
+numpy
+datasets
+sentencepiece
+protobuf
+bitarray
+transformers
+tree-sitter
+seaborn
+huggingface
+sacrebleu
+dowhy
