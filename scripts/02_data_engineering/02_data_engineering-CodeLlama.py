@@ -9,13 +9,12 @@ def default_params():
         'dataset': {
             'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
             'content_column': 'code', 
-            'number_samples': 156151,
         },
         'default_max_position_embeddings' : 16384,
         'output_path': '/workspaces/CodeSmells/data/raw_logits',
         'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
-        'log_file': '/workspaces/CodeSmells/datax/code_smells/logit_extraction.log', 
+        'log_file': '/workspaces/CodeSmells/scripts/02_data_engineering/logit_extraction.log', 
         'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
         'causal_models': {
             'M1': 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf
@@ -59,7 +58,10 @@ import matplotlib.pyplot as plt
 # #### Dataset
 
 # %%
-df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '.json', )
+df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '.json',)
+
+# %%
+df_dataset.reset_index(drop=True, inplace=True)
 
 # %% [markdown]
 # #### Model Loading
@@ -193,7 +195,7 @@ input_ids_list = [torch.tensor(  input_ids, dtype = torch.int) for input_ids in 
 # %%
 max_logit_token_prompt, min_logit_token_prompt, actual_logit_token_prompt = batching_logits(
     tokenizer=tokenizer , tf_input_ids=input_ids_list, 
-    size = params['dataset']['number_samples']
+    size = len(df_dataset)
 ) #<---WARNING TIME Consuming
 
 # %% [markdown]
@@ -247,5 +249,3 @@ dataframe_to_save.to_csv( params['output_path'] + '/' + params['current_model'] 
 # %%
 torch.cuda.empty_cache()
 gc.collect()
-
-

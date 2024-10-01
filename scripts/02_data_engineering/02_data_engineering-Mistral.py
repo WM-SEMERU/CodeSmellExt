@@ -8,14 +8,13 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
-            'content_column': 'code', 
-            'number_samples': 156151,
+            'content_column': 'code',
         },
         'default_max_position_embeddings' : 16384,
         'output_path': '/workspaces/CodeSmells/data/raw_logits',
         'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
-        'log_file': '/workspaces/CodeSmells/datax/code_smells/logit_extraction.log', 
+        'log_file': '/workspaces/CodeSmells/scripts/02_data_engineering/logit_extraction.log', 
         'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
         'causal_models': {
             'M2': 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/codellama/CodeLlama-13b-hf
@@ -60,6 +59,46 @@ import matplotlib.pyplot as plt
 
 # %%
 df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '.json', )
+
+# %% [markdown]
+# #### Imports
+
+# %%
+import pandas as pd
+import os
+import time
+import numpy as np
+import torch
+import gc
+
+# %%
+from transformers import AutoTokenizer, MistralForCausalLM 
+from datasets import load_dataset
+
+# %%
+import logging
+#logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(
+    filename=params['log_file'],
+    filemode='a',
+    format='%(asctime)s : %(levelname)s : %(message)s', 
+    level=logging.INFO
+    )
+
+# %%
+import seaborn as sns
+from scipy import stats
+from statistics import NormalDist
+import matplotlib.pyplot as plt
+
+# %% [markdown]
+# #### Dataset
+
+# %%
+df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '.json', )
+
+# %%
+df_dataset.reset_index(drop=True, inplace=True)
 
 # %% [markdown]
 # #### Model Loading
@@ -194,7 +233,7 @@ input_ids_list = [torch.tensor(  input_ids, dtype = torch.int) for input_ids in 
 # %%
 max_logit_token_prompt, min_logit_token_prompt, actual_logit_token_prompt = batching_logits(
     tokenizer=tokenizer , tf_input_ids=input_ids_list, 
-    size = params['dataset']['number_samples']
+    size = len(df_dataset)
 ) #<---WARNING TIME Consuming
 
 # %% [markdown]
@@ -248,5 +287,3 @@ dataframe_to_save.to_csv( params['output_path'] + '/' + params['current_model'] 
 # %%
 torch.cuda.empty_cache()
 gc.collect()
-
-

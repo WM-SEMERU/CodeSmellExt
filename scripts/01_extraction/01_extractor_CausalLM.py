@@ -11,7 +11,7 @@ def default_params():
             'content_column': 'code', 
             'number_samples': 156151,
         },
-        'default_max_position_embeddings' : 16384,
+        'default_max_position_embeddings' : 400, ### CodeLlama Limit ---> 470.
         'output_path': '/workspaces/CodeSmells/data/raw_logits',
         'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
