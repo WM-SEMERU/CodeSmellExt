@@ -102,3 +102,10 @@ experiments in the proposed benchmark.
 
 **nbs** folder contains the notebook to replicate our experiments. 
 
+| Netebook | Function |
+| -------- | ------- |
+| 00_dataset_curation  | Contains methods to clean the dataset and select only samples that meets the conditions of the two models that were used.  |
+| 01_extractor_CausalLM | Contains methods to extract the logits of predictions using the samples exracted in the previous notebook.  |
+| 02_data_engineering_XX  | Contains  methods to process the logits extracted in the previous steps, for each of the two models used in the experiments  |
+| 03_alignment_and_aggregation  | Contains methods to compute the PSC (Propensity Smelly Score), by aggregating logits of tokens associated to each type of smell |
+| 04_global_analysis  | Contains methods to analyze the aggregation results and perform statistical analysis of obained distributions |
