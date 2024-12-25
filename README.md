@@ -1,4 +1,4 @@
-SyntaxEval
+CodeSmellEval
 ================
 
 
@@ -99,3 +99,6 @@ pip install .
 
 **dataset** folder contains the dataset (CodeSmellData) that we used for our
 experiments in the proposed benchmark.
+
+**nbs** folder contains the notebook to replicate our experiments. 
+
