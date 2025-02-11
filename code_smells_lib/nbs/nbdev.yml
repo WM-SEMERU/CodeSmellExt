@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "code_smells_lib"
+  site-url: "https://WM-SEMERU.github.io/CodeSmells"
+  description: "CodeSmells Library"
+  repo-branch: main
+  repo-url: "https://github.com/WM-SEMERU/CodeSmells"
