@@ -25,7 +25,8 @@ from libcst import (
     SimpleWhitespace,
 )
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 4
+
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 5
 ###############################################################################
 # Transformer for rename_variable_1: First-letter renaming
 ###############################################################################
@@ -61,7 +62,7 @@ def rename_variable_1(code: str) -> str:
     new_module = wrapper.visit(FirstLetterVariableRenamer())
     return new_module.code
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 5
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 6
 ###############################################################################
 # Transformer for rename_variable_2: CodeBERT-based renaming for variables only
 ###############################################################################
@@ -69,8 +70,13 @@ def rename_variable_1(code: str) -> str:
 class CodeBERTVariableRenamer(cst.CSTTransformer):
     """
     Transformer that uses CodeBERT's fill-mask capability to generate new names,
-    but only for variable names. It will skip renaming function definitions, class
-    definitions, function calls, and attribute accesses.
+    but only for variable names. It will update every occurrence (i.e. all references)
+    of the same variable (as determined by its binding) while skipping:
+      - function definitions,
+      - class definitions,
+      - function calls,
+      - attribute accesses, and
+      - import statements.
     
     For each identifier (that is not skipped) longer than one character, a dummy code context is
     constructed and CodeBERT is used to predict a suitable replacement. If the predicted token is
@@ -81,20 +87,23 @@ class CodeBERTVariableRenamer(cst.CSTTransformer):
     # Request both scope and parent metadata.
     METADATA_DEPENDENCIES = (ScopeProvider, ParentNodeProvider)
 
-    def __init__(self, model_name:str, cache_dir:str):
-        # Load the tokenizer and model with the cache directory specified
+    def __init__(self, model_name: str, cache_dir: str):
+        # Load the tokenizer and model with the cache directory specified.
         model_tokenizer = RobertaTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
         pre_trained_model = RobertaForMaskedLM.from_pretrained(model_name, cache_dir=cache_dir)
-        # Initialize the fill-mask pipeline with the loaded model and tokenizer.
+        # Initialize the fill-mask pipeline.
         self.fill_mask = pipeline('fill-mask', model=pre_trained_model, tokenizer=model_tokenizer)
-
-        # Cache substitutions to avoid repeated model calls for the same variable.
+        # Cache substitutions keyed by a variable’s binding (or fallback to its name).
         self.substitutions = {}
 
     def leave_Name(self, original_node: cst.Name, updated_node: cst.Name) -> cst.BaseExpression:
-        # Retrieve the parent node using metadata.
         parent = self.get_metadata(ParentNodeProvider, original_node)
-        # Skip renaming if the name is used as:
+
+        # Skip renaming for import-related nodes.
+        if isinstance(parent, (cst.Import, cst.ImportFrom, cst.ImportAlias)):
+            return updated_node
+
+        # Skip renaming for:
         # - The name of a function definition.
         # - The name of a class definition.
         # - The function being called.
@@ -108,46 +117,71 @@ class CodeBERTVariableRenamer(cst.CSTTransformer):
         if isinstance(parent, cst.Attribute) and parent.attr == original_node:
             return updated_node
 
+        # Retrieve the scope for this node and try to obtain its binding.
+        try:
+            scope = self.get_metadata(ScopeProvider, original_node)
+            binding = scope.get_binding(original_node)
+        except Exception:
+            binding = None
+
+        # Use the binding’s id as a key if available; otherwise, fallback to the name string.
+        key = id(binding) if binding is not None else updated_node.value
+
         # Process only if the identifier is longer than one character.
         if len(updated_node.value) > 1:
-            original_name = updated_node.value
-            if original_name not in self.substitutions:
-                # Build a dummy context containing the correct mask token (<mask>).
-                dummy_context = f"def dummy({original_name}):\n    <mask> = {original_name}"
+            if key not in self.substitutions:
+                original_name = updated_node.value
+                # Create an enhanced dummy context.
+                # This context provides extra semantic hints and only one <mask> token.
+                dummy_context = (
+                    f"def dummy({original_name}):\n"
+                    f"    # This variable is used in a numerical computation. Suggest a clearer name.\n"
+                    f"    result = {original_name} * 2\n"
+                    f"    return <mask>"
+                )
                 try:
                     results = self.fill_mask(dummy_context)
                 except Exception as e:
                     print(f"CodeBERT error for '{original_name}': {e}")
-                    self.substitutions[original_name] = original_name[0]
-                    return updated_node.with_changes(value=self.substitutions[original_name])
+                    self.substitutions[key] = original_name[0]
+                    return updated_node.with_changes(value=self.substitutions[key])
                 
                 if results:
-                    new_name = results[2]["token_str"].strip()
-                    # Ensure the new name is a valid Python identifier.
+                    # Check if the results are nested (i.e., if there are multiple mask tokens)
+                    if isinstance(results[0], list):
+                        # Use the first candidate from the first mask
+                        new_name = results[0][0]["token_str"].strip()
+                    else:
+                        new_name = results[0]["token_str"].strip()
+                    # Ensure the new name is a valid identifier.
                     if not new_name.isidentifier():
                         new_name = original_name[0]
                 else:
                     new_name = original_name[0]
-                self.substitutions[original_name] = new_name
-            return updated_node.with_changes(value=self.substitutions[original_name])
+                self.substitutions[key] = new_name
+            return updated_node.with_changes(value=self.substitutions[key])
         return updated_node
-    
-def rename_variable_2(code: str, model_name:str, cache_dir:str) -> str:
+
+def rename_variable_2(code: str, model_name: str, cache_dir: str) -> str:
     """
-    Replace variable names (and only variable names) using suggestions from CodeBERT.
+    Replace variable names (and only variable names) using suggestions from CodeBERT,
+    updating all references for a given variable binding.
     
     Args:
         code: A string containing Python source code.
+        model_name: The name of the CodeBERT model.
+        cache_dir: Directory path for caching the model.
     
     Returns:
         The transformed code as a string.
     """
     module = cst.parse_module(code)
-    wrapper = MetadataWrapper(module)
+    wrapper = cst.MetadataWrapper(module)
     new_module = wrapper.visit(CodeBERTVariableRenamer(model_name, cache_dir))
     return new_module.code
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 7
+
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 8
 ###############################################################################
 # Transformer for switch_relation: Relational expression switching
 ###############################################################################
@@ -216,7 +250,7 @@ def switch_relation(code: str) -> str:
     return new_module.code
 
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 8
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 9
 ###############################################################################
 # Transformer for unary_2_add: Converting augmented assignments to explicit assignments
 ###############################################################################
@@ -282,7 +316,7 @@ def add_2_equal(code: str) -> str:
     new_module = wrapper.visit(AugAssignTransformer())
     return new_module.code
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 9
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 10
 def infix_dividing(code: str) -> str:
     """
     Transform assignments of the form:
@@ -370,7 +404,7 @@ def infix_dividing(code: str) -> str:
     return red.dumps()
 
 
-# %% ../nbs/00_semantic_preserving_transformations.ipynb 10
+# %% ../nbs/00_semantic_preserving_transformations.ipynb 11
 class SwitchEqualExpTransformer(cst.CSTTransformer):
     """
     Transformer that switches the left and right expressions of a simple equality comparison.
