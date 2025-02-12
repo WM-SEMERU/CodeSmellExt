@@ -11,7 +11,7 @@ def default_params():
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'dataset_path' : '/workspaces/CodeSmells/semeru-datasets/code_smells',
         'sampling_size' : 500, 
-        'transformation_name' : 'SwitchRelation'
+        'transformation_name' : 'RenameVariable-2'
     }
 params = default_params()
 
