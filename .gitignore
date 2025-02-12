@@ -177,3 +177,7 @@ semeru-datasets/
 *.csv
 stderr 
 stdout
+
+/workspaces/CodeSmells/code_smells_lib/CodeSmells/
+/workspaces/CodeSmells/code_smells_lib/CodeSmells/*
+/workspaces/CodeSmells/code_smells_lib/CodeSmells

@@ -2,12 +2,16 @@
 # ### Add mutatios for robustness testing
 
 # %%
+# Transformation names: 'RenameVariable-1' 'RenameVariable-2'
+#                       'Add2Equal' 'SwitchEqualExp''InfixDividing' 
+#                       'SwitchRelation' 
 def default_params(): 
     return {
         'bert_model': 'microsoft/codebert-base-mlm',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'dataset_path' : '/workspaces/CodeSmells/semeru-datasets/code_smells',
-        'sampling_size' : 500
+        'sampling_size' : 500, 
+        'transformation_name' : 'SwitchRelation'
     }
 params = default_params()
 
@@ -22,6 +26,12 @@ import json
 import subprocess
 import os
 import glob
+import re
+import lizard
+
+# %%
+from tree_sitter import Language, Parser
+import tree_sitter_python as tspython
 
 # %%
 import pandas as pd
@@ -41,14 +51,14 @@ logging.set_verbosity_error()
 dataset_df = pd.read_json(f"{params['dataset_path']}/curated_{params['sampling_size']}.json")
 
 # %%
-dataset_df = dataset_df
+#dataset_df = dataset_df
 
 # %% [markdown]
 # ### Add mutations
 
 # %%
 def run_pylint_analysis(code):
-    temp_file_path = f"{params['cache_dir']}/pylint/temp.py"
+    temp_file_path = f"{params['cache_dir']}/pylint/temp_{params['transformation_name']}.py"
      # Save the code to a temporary file with UTF-8 encoding
     with open(temp_file_path, 'w', encoding='utf-8') as temp_file:
         temp_file.write(code)
@@ -154,27 +164,167 @@ def add_transformation(df, transformation_name, transformation_function, filter_
 def execute_rename_variable_2(code:str):
     return trans.rename_variable_2(code, params['bert_model'], params['cache_dir'])
 
-# %%
-dataset_df = add_transformation(dataset_df, 'RenameVariable-1', trans.rename_variable_1, False)
-dataset_df = add_transformation(dataset_df, 'RenameVariable-2', execute_rename_variable_2, False)
-dataset_df = add_transformation(dataset_df, 'Add2Equal', trans.add_2_equal, False)
-dataset_df = add_transformation(dataset_df, 'SwitchEqualExp', trans.switch_equal_exp, False)
-dataset_df = add_transformation(dataset_df, 'InfixDividing', trans.infix_dividing, False)
-dataset_df = add_transformation(dataset_df, 'SwitchRelation', trans.switch_relation, False)
+# %% [markdown]
+# ### Disentangle Transformation
 
 # %%
-dataset_df
+class TreeSitterManager():
+    def __init__(self, lang):
+        #self.language = self.get_language(lang)
+        self.language = Language(tspython.language())
+        self.parser = Parser(self.language)
+        #self.parser.set_language(self.language)
+
+    def get_ast_errors_and_deep(self, code):
+        node_tree = self.parser.parse(bytes(code, "utf8"))
+        return self.__detect_ast_errors_and_deep(node_tree.root_node, set())
+
+    def __detect_ast_errors_and_deep(self, node_root, identifier_set = set(), level=0, max_level=0, count = 0):
+        """Traverses the tree catch errors and evaluate tree levels"""
+        # if not node_root.has_error:
+        #     return [], 0
+        counter = node_root.child_count
+
+        results = []
+        if node_root.type == "ERROR":
+            results.append(node_root.text.decode("utf-8"))
+        elif node_root.type == "identifier":
+            identifier_set.add(node_root.text)
+        level += 1
+        for n in node_root.children:
+            x, identifier_set, y, max_level, count = self.__detect_ast_errors_and_deep(n, identifier_set, level, max_level)
+            max_level = max(y, max_level)
+            counter += count
+            if len(x) > 0:
+                results.extend(x)
+
+        return results, identifier_set, max_level, level, counter
 
 # %%
-#row_number = 18
-#print(dataset_df.loc[row_number]['s_code'])
-#print(dataset_df.loc[row_number]['RenameVariable-2']['code_smell'])
+def analyze_method(code_string):
+    temp_file_path = f"{params['cache_dir']}/lizard/temp_{params['transformation_name']}.py"
+    # Analyze the code using lizard
+    analysis = lizard.analyze_file.analyze_source_code(temp_file_path, code_string)
+    
+    # Extract function details
+    functions = []
+    for function in analysis.function_list:
+        functions.append({
+            "fun_name": function.name,
+            "complexity": function.cyclomatic_complexity,
+            "nloc": function.nloc,
+            "token_counts": function.token_count
+        })
+    
+    return functions[0]
 
+# %%
+def disentangle_transformation(entangled_df):
+    # Initialize the AST error detector (assuming language is always Python)
+    ast_error_detector = TreeSitterManager("python")
+    t_name = params['transformation_name']  # transformation column name
+
+    # Copy shared columns
+    shared_columns = ['id', 'commit_id', 'repo', 'path', 'file_name', 
+                      'commit_message', 'url', 'language', 'category']
+    transformation_df = entangled_df[shared_columns].copy()
+
+    # Extract transformation details from the JSON field
+    transformation_df['code'] = entangled_df[t_name].apply(lambda t: t.get('code') if t else None)
+    transformation_df['s_msg_id'] = entangled_df[t_name].apply(lambda t: t.get('msg_id') if t else None)
+    transformation_df['s_line'] = entangled_df[t_name].apply(lambda t: t.get('line') if t else None)
+    transformation_df['s_column'] = entangled_df[t_name].apply(lambda t: t.get('column') if t else None)
+    transformation_df['s_end_line'] = entangled_df[t_name].apply(lambda t: t.get('end_line') if t else None)
+    transformation_df['s_end_column'] = entangled_df[t_name].apply(lambda t: t.get('end_column') if t else None)
+    transformation_df['s_code'] = entangled_df[t_name].apply(lambda t: t.get('code_smell') if t else None)
+
+    # Compute simple code metrics
+    transformation_df['n_whitespaces'] = transformation_df['code'].apply(lambda code: code.count(' ') if code else None)
+    transformation_df['n_words'] = transformation_df['code'].apply(lambda code: len(code.split()) if code else None)
+    transformation_df['vocab_size'] = transformation_df['code'].apply(lambda code: len(set(code.split())) if code else None)
+
+    # Compute lizard and AST metrics in one pass per row
+    def compute_metrics(row):
+        code = row['code']
+        if not code:
+            return pd.Series({
+                'fun_name': None,
+                'complexity': None,
+                'nloc': None,
+                'token_counts': None,
+                'ast_errors': None,
+                'ast_levels': None,
+                'n_ast_nodes': None,
+                'n_ast_errors': None,
+                'n_identifiers': None
+            })
+
+        # Lizard analysis
+        lizard_result = analyze_method(code)
+        fun_name = lizard_result.get('fun_name')
+        complexity = lizard_result.get('complexity')
+        nloc = lizard_result.get('nloc')
+        token_counts = lizard_result.get('token_counts')
+
+        # AST analysis
+        ast_errors, identifier_set, ast_deep, level, count = ast_error_detector.get_ast_errors_and_deep(code)
+        ast_levels = ast_deep
+        n_ast_nodes = count
+        n_ast_errors = len(ast_errors) if ast_errors is not None else None
+        n_identifiers = len(identifier_set) if identifier_set is not None else None
+
+        return pd.Series({
+            'fun_name': fun_name,
+            'complexity': complexity,
+            'nloc': nloc,
+            'token_counts': token_counts,
+            'ast_errors': ast_errors,
+            'ast_levels': ast_levels,
+            'n_ast_nodes': n_ast_nodes,
+            'n_ast_errors': n_ast_errors,
+            'n_identifiers': n_identifiers
+        })
+
+    metrics_df = transformation_df.apply(compute_metrics, axis=1)
+    transformation_df = pd.concat([transformation_df, metrics_df], axis=1)
+    return transformation_df[pd.notnull(transformation_df['code'])].reset_index(drop=True)
+
+# %% [markdown]
+# ### Transformations Mapping
+
+# %%
+def default_transformations(): 
+    return {
+        'RenameVariable-1': trans.rename_variable_1, 
+        'RenameVariable-2' : execute_rename_variable_2,
+        'Add2Equal' : trans.add_2_equal, 
+        'SwitchEqualExp' : trans.switch_equal_exp, 
+        'InfixDividing' : trans.infix_dividing,
+        'SwitchRelation' : trans.switch_relation
+    }
+transformation_map = default_transformations()
+
+
+# %% [markdown]
+# ### Execute
+
+# %%
+print(f"=========================== Transformation {params['transformation_name']} started =============================")
+dataset_df = add_transformation(dataset_df, params['transformation_name'], transformation_map[params['transformation_name']], False)
+print(f"=========================== Transformation {params['transformation_name']} finished =============================")
+
+# %%
+print(f"=========================== Disentaglement {params['transformation_name']} started =============================")
+result_df = disentangle_transformation(dataset_df)
+print(f"=========================== Disentaglement {params['transformation_name']} finished =============================")
+
+# %%
+result_df.head(5)
 
 # %% [markdown]
 # ### Store the data
 
 # %%
-dataset_df.to_json(f"{params['dataset_path']}/transformed_curated_{params['sampling_size']}.json", index=False)
+result_df.to_json(f"{params['dataset_path']}/transformed_{params['transformation_name']}_{params['sampling_size']}.json", index=False)
 
 

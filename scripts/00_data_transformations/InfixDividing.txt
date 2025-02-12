@@ -1,0 +1,90 @@
+2025-02-12 20:37:28.457164: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1739392648.474587 4010360 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1739392648.480059 4010360 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-02-12 20:37:28.496510: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+=========================== Transformation InfixDividing started =============================
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/baron/baron.py", line 20, in _parse
+    return parser(tokens)
+           ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/grammator.py", line 836, in parse
+    return parser.parse(iter(tokens))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/parser.py", line 165, in parse
+    raise ParsingError(debug_output)
+baron.parser.ParsingError: Error, got an unexpected token STAR here:
+
+ 109                 f.write(vcxproj)
+ 110 
+ 111             cc = get_ccompiler()
+ 112             cc.initialize()  # Get msbuild in the %PATH% of cc.spawn.
+ 113             # Freetype 2.10.0+ support static builds.
+ 114             msbuild_config = (                
+ 115 "Release Static"                
+ 116 if [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspaces/CodeSmells/scripts/00_data_transformations/02_add_mutations.py", line 313, in <module>
+    dataset_df = add_transformation(dataset_df, params['transformation_name'], transformation_map[params['transformation_name']], False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/CodeSmells/scripts/00_data_transformations/02_add_mutations.py", line 155, in add_transformation
+    df[transformation_name] = df.apply(lambda row: [fix_smell_pos_values(smell) for smell in run_pylint_analysis(transformation_function(row['code']))], axis=1)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/core/frame.py", line 10361, in apply
+    return op.apply().__finalize__(self, method="apply")
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/core/apply.py", line 916, in apply
+    return self.apply_standard()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/core/apply.py", line 1063, in apply_standard
+    results, res_index = self.apply_series_generator()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/core/apply.py", line 1081, in apply_series_generator
+    results[i] = self.func(v, *self.args, **self.kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/CodeSmells/scripts/00_data_transformations/02_add_mutations.py", line 155, in <lambda>
+    df[transformation_name] = df.apply(lambda row: [fix_smell_pos_values(smell) for smell in run_pylint_analysis(transformation_function(row['code']))], axis=1)
+                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/CodeSmells/semantic_preserving_transformations.py", line 341, in infix_dividing
+    red = RedBaron(code)
+          ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/redbaron/redbaron.py", line 36, in __init__
+    self.node_list = base_nodes.NodeList.from_fst(baron.parse(source_code), parent=self, on_attribute="root")
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/baron.py", line 66, in parse
+    return _parse(tokens, print_function)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/baron.py", line 24, in _parse
+    return parser(tokens)
+           ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/grammator.py", line 836, in parse
+    return parser.parse(iter(tokens))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/baron/parser.py", line 165, in parse
+    raise ParsingError(debug_output)
+baron.parser.ParsingError: Error, got an unexpected token STAR here:
+
+ 109                 f.write(vcxproj)
+ 110 
+ 111             cc = get_ccompiler()
+ 112             cc.initialize()  # Get msbuild in the %PATH% of cc.spawn.
+ 113             # Freetype 2.10.0+ support static builds.
+ 114             msbuild_config = (                
+ 115 "Release Static"                
+ 116 if [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
