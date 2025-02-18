@@ -1,2 +1,1 @@
-#nohup python3 -u /workspaces/CodeSmells/scripts/02_data_engineering/02_data_engineering-CodeLlama.py > /workspaces/CodeSmells/scripts/02_data_engineering/02_data_engineering-CodeLlama.txt &
-nohup python3 -u /workspaces/CodeSmells/scripts/02_data_engineering/02_data_engineering-Mistral.py > /workspaces/CodeSmells/scripts/02_data_engineering/02_data_engineering-Mistral.txt &
+nohup python3 -u /workspaces/CodeSmells/scripts/02_data_engineering/04_1_data_engineering-CodeLlama.py > /workspaces/CodeSmells/scripts/02_data_engineering/logs/04_1_data_engineering-CodeLlama.txt &

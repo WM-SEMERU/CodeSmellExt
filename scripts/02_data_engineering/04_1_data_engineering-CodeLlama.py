@@ -7,17 +7,17 @@ def default_params():
         'current_model': 'M1', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
-            'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
-            'content_column': 'code', 
+            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
+            'transformation': 'curated',
+            'content_column': 'code',
+            'sampling_size': 500,
         },
-        'default_max_position_embeddings' : 16384,
-        'output_path': '/workspaces/CodeSmells/data/raw_logits',
-        'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
+        'logging_path': '/workspaces/CodeSmells/datax/code_smells/logs', 
+        'output_path' : '/workspaces/CodeSmells/datax/code_smells/logits',
+        'callbacks_path' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
-        'log_file': '/workspaces/CodeSmells/scripts/02_data_engineering/logit_extraction.log', 
-        'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
         'causal_models': {
-            'M1': 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf
+            'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
         },
     }
 params = default_params()
@@ -35,33 +35,46 @@ import torch
 import gc
 
 # %%
-from transformers import CodeLlamaTokenizer, LlamaForCausalLM
-from datasets import load_dataset
-
-# %%
-import logging
-#logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-logging.basicConfig(
-    filename=params['log_file'],
-    filemode='a',
-    format='%(asctime)s : %(levelname)s : %(message)s', 
-    level=logging.INFO
-    )
-
-# %%
 import seaborn as sns
 from scipy import stats
 from statistics import NormalDist
 import matplotlib.pyplot as plt
 
+# %%
+from transformers import CodeLlamaTokenizer, LlamaForCausalLM
+from datasets import load_dataset
+
+# %%
+def create_folder(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+# %%
+# Define log file path
+log_file = f"{params['logging_path']}/{params['current_model']}/{params['dataset']['transformation']}"
+create_folder(log_file)
+log_file += '/data_en.txt'
+
+# Create the log file if it doesn't exist
+if not os.path.exists(log_file):
+    with open(log_file, 'w'): 
+        pass  # Create an empty log file
+
+# %%
+import logging
+logging.basicConfig(filename=log_file, format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
 # %% [markdown]
 # #### Dataset
 
 # %%
-df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '.json',)
+print(f"{params['dataset']['path']}/{params['dataset']['transformation']}_{params['dataset']['sampling_size']}.json")
 
 # %%
-df_dataset.reset_index(drop=True, inplace=True)
+df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['dataset']['transformation']}_{params['dataset']['sampling_size']}.json", )
+
+# %%
+df_dataset
 
 # %% [markdown]
 # #### Model Loading
@@ -88,6 +101,16 @@ def instantiate_llm(model_name:str, cache_dir:str):
 
 # %%
 tokenizer, model = instantiate_llm(params['causal_models'][params['current_model']], params['cache_dir'])
+
+# %%
+model.config
+
+# %% [markdown]
+# #### preprocess dataset
+
+# %%
+df_dataset['input_ids'] = df_dataset[params['dataset']['content_column']].map(lambda code: tokenizer.encode(code, add_special_tokens=False))
+df_dataset['input_lenght'] = df_dataset['input_ids'].map(lambda input_ids: len(input_ids))
 
 # %% [markdown]
 # #### Softmax Normalization and Data Engineering
@@ -125,7 +148,9 @@ def actual_logit(
 soft = torch.nn.Softmax( dim = 0 ) #Flattening normalization
 
 # %%
-out= np.load(params['callbacks_dir']+ '/'+ params['current_model'] + '_q_' + params['quantization'] +'/' + 'logits_tensor[0]_batch[0].npy')
+callbacks_dir = f"{params['callbacks_path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['transformation']}"
+out = np.load(f"{callbacks_dir}/logits_tensor[0]_batch[0].npy")
+
 print(out.shape) #<sample,tokens,voc_tokens>
 out = out[0]
 
@@ -166,7 +191,8 @@ def batching_logits(tokenizer,tf_input_ids,size=10000):
     soft = torch.nn.Softmax( dim = 0 )                          #Flattening normalization
     
     for file in range( size ):
-        out = np.load(params['callbacks_dir']+ '/'+ params['current_model'] + '_q_' + params['quantization'] +'/'+ f'logits_tensor[{file}]_batch[{file}].npy') #<sample,tokens,voc_tokens>
+        callbacks_dir = f"{params['callbacks_path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['transformation']}"
+        out = np.load(f"{callbacks_dir}/logits_tensor[{file}]_batch[{file}].npy") #<sample,tokens,voc_tokens>
         out = out[0]  ##### #<tokens,voc_tokens>
         next_tokens_distribution = [ soft( torch.from_numpy(token) ) for token in out]  #Flattening normalization
         
@@ -214,20 +240,19 @@ dataframe_to_save['actual_prob'] = actual_logit_token_prompt
 dataframe_to_save.shape
 
 # %%
-dataframe_to_save.head(5)
-
-# %%
-create_folder(params['output_path'] + '/' + params['current_model'] + '_q_' + params['quantization'])
-dataframe_to_save.to_csv( params['output_path'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '/' + 'raw_logits.csv')
+output_dir = f"{params['output_path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['transformation']}"
+create_folder(output_dir)
+dataframe_to_save.to_json(f"{output_dir}/raw_logits.json", index=False)
 
 # %% [markdown]
 # #### Loss Retrieval
 
 # %%
 def batching_loss( size = dataframe_to_save.shape[0] ):
+    output_dir = f"{params['callbacks_path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['transformation']}"
     output_loss = []
     for current_batch in range(size):
-        out = np.load(params['callbacks_dir']+ '/'+ params['current_model'] +  '_q_' + params['quantization'] +'/' + f'_loss_batch[{current_batch}].npy') 
+        out = np.load(f"{output_dir}/_loss_batch[{current_batch}].npy")
         output_loss.append( out.item() ) #.item() for numpy library
         logging.info(current_batch)
     return output_loss
@@ -244,8 +269,14 @@ dataframe_to_save.head(5)
 
 # %%
 ## Saving CheckPoint 2
-dataframe_to_save.to_csv( params['output_path'] + '/' + params['current_model'] + '_q_' + params['quantization'] + '/' + 'raw_logits.csv')
+dataframe_to_save.to_json(f"{output_dir}/raw_logits.json", index=False)
 
 # %%
+print("================================= PROCESS COMPLETED =================================")
+
+# %%
+del model
 torch.cuda.empty_cache()
 gc.collect()
+
+

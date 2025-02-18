@@ -2045,3 +2045,1141 @@ The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BIN
 Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
 
 Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  20             dsy_n = round((height - tooth_size) / (tooth_size * 2)) * 2
+  21             dsy = (height - tooth_size) / dsy_n
+  22 
+  23             x0, y0 = x0 - pad + hsz, y0 - pad + hsz
+  24             x1, y1 = x0 + width, y0 + height
+  25 
+  26             xs = [                
+  27 x0, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   1 async def provide_flow_policy():
+   2     policy_provider = ORCHESTRATION_DEPENDENCIES.get("flow_policy_provider")
+   3 
+   4     if policy_provider is None:
+   5         from prefect.orion.orchestration.core_policy import CoreFlowPolicy
+   6         return CoreFlowPolicy
+   7 
+   8     return (await policy_provider <----
+
+'('NAME', 'policy_provider')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   9 }            
+  10 )
+  11 
+  12         order = cls.get_node_or_error(info, data.get("id"), only_type=Order)
+  13         clean_order_refund(order)
+  14         app = load_app(info.context)
+  15         manager = load_plugin_manager(info.context)
+  16         if payment_transactions := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token $end here:
+
+  11             ets.append(noise_)
+  12             noise = (1 / 24) * (55 * ets[-1] - 59 * ets[-2] + 37 * ets[-3] - 9 * ets[-4])
+  13         else:
+  14             noise = self.runge_kutta(img, t_list, model, ets, noise_)
+  15 
+  16         img_next = self.transfer(img.to("cpu"), t, t_next, noise)
+  17         return img_next, ets
+  18 <---- here
+
+The token $end should be one of those: ASSERT, AT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, CLASS, COMMENT, COMPLEX, CONTINUE, DEDENT, DEF, DEL, ELLIPSIS, ENDL, ENDMARKER, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FOR, FROM, GLOBAL, HEXA, IF, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, TRY, UNICODE_RAW_STRING, UNICODE_STRING, WHILE, WITH, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  28             b_type = b_terminations[0].termination_type.model
+  29             if b_type not in COMPATIBLE_TERMINATION_TYPES.get(a_type):
+  30                 raise ValidationError(                    
+  31 f"Incompatible termination types: {a_type} and {b_type}"                
+  32 )
+  33 
+  34         # Run clean() on any new CableTerminations
+  35         for cabletermination in [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  10     except KeyError:
+  11         # No views have been registered for this model
+  12         views = []
+  13 
+  14     # Compile a list of tabs to be displayed in the UI
+  15     for config in views:
+  16         view = import_string(config['view']) if type(config['view']) is str else config['view']
+  17         if tab := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   7             if cmsg_level == socket.SOL_SOCKET and cmsg_type == socket.SCM_RIGHTS:
+   8                 # Append data, ignoring any truncated integers at the end.
+   9                 fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) % fds.itemsize)])
+  10         self.fds += list(fds)
+  11         if not msg:
+  12             raise SocketClosed('socket unexpectedly closed')
+  13         self.input_buf += msg
+  14         while (idx :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token $end here:
+
+  20         from dummy_thread import get_ident as _get_ident
+  21 
+  22     try:
+  23         from _abcoll import KeysView, ValuesView, ItemsView
+  24     except ImportError:
+  25         pass
+  26 
+  27 <---- here
+
+The token $end should be one of those: ASSERT, AT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, CLASS, COMMENT, COMPLEX, CONTINUE, DEDENT, DEF, DEL, ELLIPSIS, ENDL, ENDMARKER, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FOR, FROM, GLOBAL, HEXA, IF, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, TRY, UNICODE_RAW_STRING, UNICODE_STRING, WHILE, WITH, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   6             if cmsg_level == socket.SOL_SOCKET and cmsg_type == socket.SCM_RIGHTS:
+   7                 # Append data, ignoring any truncated integers at the end.
+   8                 fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) % fds.itemsize)])
+   9         self.fds += list(fds)
+  10         if not msg:
+  11             raise SocketClosed('socket unexpectedly closed')
+  12         self.input_buf += msg
+  13         while (idx :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   2     
+   3 
+   4     try:
+   5         cmd: list[str] = shlex.split(attrs["path"])
+   6         path = cmd[0]
+   7 
+   8         _press = attrs.get("press", None)
+   9         press = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def offset(self) -> int:
+   2         
+   3         if offset := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   8 )                
+   9 }            
+  10 )
+  11 
+  12         order = cls.get_node_or_error(info, data.get("id"), only_type=Order)
+  13         clean_order_refund(order)
+  14 
+  15         if payment_transactions := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   1 async def block_documents(self, session, block_schemas):
+   2 
+   3         block_documents = []
+   4         block_documents.append(
+   5             await models <----
+
+'('NAME', 'models')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def get_object_type_name_and_pk(cls, data):
+   2         object_id = data.get("id")
+   3         if not object_id:
+   4             return None, None
+   5         try:
+   6             return from_global_id_or_error(object_id)
+   7         except GraphQLError:
+   8             if order := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+  21 self.handle_connection(self.client),                
+  22 name=f"client connection handler",                
+  23 client=self.client.peername,            
+  24 )
+  25             self.transports[self.client].handler = handler
+  26             self.server_event(events.Start())
+  27             await asyncio.wait([handler])
+  28             if not handler.cancelled() and (e :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token $end here:
+
+  20         from dummy_thread import get_ident as _get_ident
+  21 
+  22     try:
+  23         from _abcoll import KeysView, ValuesView, ItemsView
+  24     except ImportError:
+  25         pass
+  26 
+  27 <---- here
+
+The token $end should be one of those: ASSERT, AT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, CLASS, COMMENT, COMPLEX, CONTINUE, DEDENT, DEF, DEL, ELLIPSIS, ENDL, ENDMARKER, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FOR, FROM, GLOBAL, HEXA, IF, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, TRY, UNICODE_RAW_STRING, UNICODE_STRING, WHILE, WITH, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   8             #
+   9             # XXX this appears to be redundant, since the ReplicationCommandHandler
+  10             # has a linearizer which ensures that we only process one line of
+  11             # replication data at a time. Should we remove it, or is it doing useful
+  12             # service for robustness? Or could we replace it with an assertion that
+  13             # we're not being re-entered?
+  14 
+  15             with (await self <----
+
+'('NAME', 'self')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def parse_datetime(value):
+   2     
+   3     try:
+   4         return datetime.datetime.fromisoformat(value)
+   5     except ValueError:
+   6         if match := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   3         order.status = OrderStatus.UNFULFILLED
+   4         order.save(update_fields=["status", "updated_at"])
+   5         order_info = fetch_order_info(order)
+   6         payment = order_info.payment
+   7         manager = load_plugin_manager(info.context)
+   8         app = load_app(info.context)
+   9 
+  10         if payment_transactions := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   7             # returning self.filter and including that in this loop.
+   8             expressions = super(Aggregate, c).get_source_expressions()
+   9             for index, expr in enumerate(expressions):
+  10                 if expr.contains_aggregate:
+  11                     before_resolved = self.get_source_expressions()[index]
+  12                     name = before_resolved.name if hasattr(before_resolved, 'name') else repr(before_resolved)
+  13                     raise FieldError("Cannot compute %s('%s'): '%s' is an aggregate" % (c.name, name, name))
+  14         if (default :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   2     
+   3 
+   4     try:
+   5         cmd: list[str] = shlex.split(attrs["path"])
+   6         path = cmd[0]
+   7 
+   8         _press = attrs.get("press", None)
+   9         press = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  20             dsy_n = round((height - tooth_size) / (tooth_size * 2)) * 2
+  21             dsy = (height - tooth_size) / dsy_n
+  22 
+  23             x0, y0 = x0 - pad + hsz, y0 - pad + hsz
+  24             x1, y1 = x0 + width, y0 + height
+  25 
+  26             xs = [                
+  27 x0, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def noise_like(shape, device, repeat=False):
+   2     repeat_noise = lambda: torch.randn((1, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def brightness(self) -> int | None:
+   2         
+   3         if (brightness :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   2     
+   3 
+   4     try:
+   5         cmd: list[str] = shlex.split(attrs["path"])
+   6         path = cmd[0]
+   7 
+   8         _press = attrs.get("press", None)
+   9         press = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def get_rgba(cls, tex, fontsize=None, dpi=None, rgb=(0, 0, 0)):
+   2         r
+   3         alpha = cls.get_grey(tex, fontsize, dpi)
+   4         rgba = np.empty((*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   3     total_width = fig_w * w
+   4     max_height = fig_h * h
+   5 
+   6     # Determine the k factors.
+   7     n = len(equal_heights)
+   8     eq_rels, eq_abss = equal_heights.T
+   9     sm_rels, sm_abss = summed_widths.T
+  10     A = np.diag([*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def attributes(self):
+   2         
+   3         if self._attributes is None:
+   4             source = self._row.shared_attrs or self._row.attributes
+   5             if self._attr_cache is not None and (                
+   6 attributes :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def pseudo_classes(self) -> frozenset[str]:
+   2         
+   3         pseudo_classes = frozenset({*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, DOUBLE_STAR, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def name(self) -> str:
+   2         
+   3         if name := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+  24 "color_loop_active",            
+  25 ]
+  26 
+  27             results = await self._color_channel.get_attributes(                
+  28 attributes, from_cache=False, only_cache=False            
+  29 )
+  30 
+  31             if (color_mode :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token ELIF here:
+
+   2         cpu_used, cpu_peak =  list(map(lambda x: int(x/2**20), tracemalloc.get_traced_memory()))
+   3         self.peak_monitor_stop()
+   4         gpu_used = gpu_mem_get_used_no_cache() - self.gpu_before
+   5         gpu_peak = self.gpu_mem_used_peak      - self.gpu_before
+   6         # can be negative, due to unreliable peak monitor thread
+   7         if gpu_peak < 0:   gpu_peak = 0
+   8         # since we want the overhead only, subtract delta used if it's positive
+   9         elif <---- here
+
+The token ELIF should be one of those: ASSERT, AT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, CLASS, COMMENT, COMPLEX, CONTINUE, DEDENT, DEF, DEL, ELLIPSIS, ENDL, ENDMARKER, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FOR, FROM, GLOBAL, HEXA, IF, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, TRY, UNICODE_RAW_STRING, UNICODE_STRING, WHILE, WITH, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   9 }            
+  10 )
+  11 
+  12         order = cls.get_node_or_error(info, data.get("id"), only_type=Order)
+  13         clean_order_refund(order)
+  14         app = load_app(info.context)
+  15 
+  16         if payment_transactions := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def last_changed(self) -> datetime:  # type: ignore[override]
+   2         
+   3         if self._last_changed is None:
+   4             if (last_changed :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  27                 options[option] = [                    
+  28 [new_name if n == old_name else n for n in together]                    
+  29 for together in options[option]                
+  30 ]
+  31         # Fix to_fields to refer to the new field.
+  32         delay = True
+  33         references = get_references(self, model_key, (old_name, found))
+  34         for *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, OCTA, PLUS, RAW_STRING, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def async_update_state(self) -> None:
+   2         
+   3         states = [            
+   4 state.state            
+   5 for entity_id in self._entities            
+   6 if (state :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token $end here:
+
+  20         from dummy_thread import get_ident as _get_ident
+  21 
+  22     try:
+  23         from _abcoll import KeysView, ValuesView, ItemsView
+  24     except ImportError:
+  25         pass
+  26 
+  27 <---- here
+
+The token $end should be one of those: ASSERT, AT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, CLASS, COMMENT, COMPLEX, CONTINUE, DEDENT, DEF, DEL, ELLIPSIS, ENDL, ENDMARKER, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FOR, FROM, GLOBAL, HEXA, IF, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, TRY, UNICODE_RAW_STRING, UNICODE_STRING, WHILE, WITH, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  10     except KeyError:
+  11         # No views have been registered for this model
+  12         views = []
+  13 
+  14     # Compile a list of tabs to be displayed in the UI
+  15     for config in views:
+  16         view = import_string(config['view']) if type(config['view']) is str else config['view']
+  17         if tab := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def test_options(self):
+   2         for option in self.options:
+   3             with self.subTest(option=option):
+   4                 try:
+   5                     command = ['ansible-test', 'integration', '--list-targets']
+   6 
+   7                     skip_all = subprocess.run([*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+  24 "color_loop_active",            
+  25 ]
+  26 
+  27             results = await self._color_channel.get_attributes(                
+  28 attributes, from_cache=False, only_cache=False            
+  29 )
+  30 
+  31             if (color_mode :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def offset(self) -> int:
+   2         
+   3         if offset := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  15         current_monitors = {            
+  16 list(device.identifiers)[0][1]            
+  17 for device in dr.async_entries_for_config_entry(                
+  18 self._device_registry, self._config_entry_id            
+  19 )        
+  20 }
+  21         new_monitors = {str(monitor.id) for monitor in monitors}
+  22         if stale_monitors := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+   1 def perform_mutation(cls, root, info, **data):
+   2         order = cls.get_instance(info, **data)
+   3         order.status = OrderStatus.UNFULFILLED
+   4         order.save(update_fields=["status", "updated_at"])
+   5         order_info = fetch_order_info(order)
+   6         payment = order_info.payment
+   7         manager = info.context.plugins
+   8         if payment_transactions := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def get_client_ip(request, additional_headers=()):
+   2     
+   3     HTTP_HEADERS = (        
+   4 'HTTP_X_REAL_IP',        
+   5 'HTTP_X_FORWARDED_FOR',        
+   6 'REMOTE_ADDR',        
+   7 *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+  14             if cmsg_level == socket.SOL_SOCKET and cmsg_type == socket.SCM_RIGHTS:
+  15                 # Append data, ignoring any truncated integers at the end.
+  16                 fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) % fds.itemsize)])
+  17         self.fds += list(fds)
+  18         if not msg:
+  19             raise SocketClosed('socket unexpectedly closed')
+  20         self.input_buf += msg
+  21         while (idx :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Error, got an unexpected token COLON here:
+
+   6             if cmsg_level == socket.SOL_SOCKET and cmsg_type == socket.SCM_RIGHTS:
+   7                 # Append data, ignoring any truncated integers at the end.
+   8                 fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) % fds.itemsize)])
+   9         self.fds += list(fds)
+  10         if not msg:
+  11             raise SocketClosed('socket unexpectedly closed')
+  12         self.input_buf += msg
+  13         while (idx :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def _dynamic_update_index(x, idx, val):
+   2   if not idx: return val
+   3   ndim = len(x.shape)
+   4   starts = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+  13 
+  14         a0, i0 = None, None
+  15 
+  16         if find_integer_root:
+  17             for i, r in enumerate(approx_roots_of_self):
+  18                 if round(r.imag) != 0:
+  19                     continue
+  20                 if not dup_eval(R, (a :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def test_batched_vs_single(self, test_id, info, args_kwargs, device):
+   2         (batched_input, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  33 )["data"]
+  34             self._attr_extra_state_attributes[ATTR_FOLLOW] = len(follows) > 0
+  35             if len(follows):
+  36                 self._attr_extra_state_attributes[ATTR_FOLLOW_SINCE] = follows[0][                    
+  37 "followed_at"                
+  38 ]
+  39 
+  40         if streams := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  33 )["data"]
+  34             self._attr_extra_state_attributes[ATTR_FOLLOW] = len(follows) > 0
+  35             if len(follows):
+  36                 self._attr_extra_state_attributes[ATTR_FOLLOW_SINCE] = follows[0][                    
+  37 "followed_at"                
+  38 ]
+  39 
+  40         if streams := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 async def async_test_stream(hass, info) -> dict[str, str]:
+   2     
+   3     if not (stream_source :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   5     if not isinstance(idx, tuple):
+   6         idx = (idx,)
+   7 
+   8     # if a > 1D numpy.array is provided, cast it to a dask array
+   9     if len(idx) > 0 and len(shape) > 1:
+  10         i = idx[0]
+  11         if is_arraylike(i) and not isinstance(i, Array) and i.shape == shape:
+  12             idx = (from_array(i), *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  14         cl = int(cl)
+  15         im.show(ax=axes.flat[i], title=            
+  16 f'{classes[self.pred_class[idx]]}/{classes[cl]} / {self.losses[idx]:.2f} / {self.preds[idx][cl]:.2f}')
+  17         if heatmap:
+  18             mult = self.GradCAM(idx,heatmap_thresh,image=False)
+  19             if mult is not None:
+  20                 sz = list(im.shape[-2:])
+  21                 axes.flat[i].imshow(mult, alpha=0.6, extent=(0,*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   1 async def cat_asset_id_to_name(self, request):
+   2         assert self.service.wallet_state_manager is not None
+   3         wallet = await self.service.wallet_state_manager.get_wallet_for_asset_id(request["asset_id"])
+   4         if wallet is None:
+   5             raise ValueError("The asset ID specified does not belong to a wallet")
+   6         else:
+   7             return {"wallet_id": wallet.id(), "name": (await wallet <----
+
+'('NAME', 'wallet')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 2
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  10     except KeyError:
+  11         # No views have been registered for this model
+  12         views = []
+  13 
+  14     # Compile a list of tabs to be displayed in the UI
+  15     for config in views:
+  16         view = import_string(config['view']) if type(config['view']) is str else config['view']
+  17         if tab := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def noise_like(shape, device, repeat=False):
+   2     repeat_noise = lambda: torch.randn((1, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   2     parameter_provider = ORCHESTRATION_DEPENDENCIES.get(
+   3         "task_orchestration_parameters_provider"
+   4     )
+   5 
+   6     if parameter_provider is None:
+   7         return dict()
+   8 
+   9     return (await parameter_provider <----
+
+'('NAME', 'parameter_provider')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token STAR here:
+
+   7 
+   8         # Support for `frame.transform('method')`
+   9         # Some methods (shift, etc.) require the axis argument, others
+  10         # don't, so inspect and insert if necessary.
+  11         func = getattr(obj, f, None)
+  12         if callable(func):
+  13             sig = inspect.getfullargspec(func)
+  14             arg_names = (*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def async_update_state(self) -> None:
+   2         
+   3         states = [            
+   4 state.state            
+   5 for entity_id in self._entities            
+   6 if (state :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   8             #
+   9             # XXX this appears to be redundant, since the ReplicationCommandHandler
+  10             # has a linearizer which ensures that we only process one line of
+  11             # replication data at a time. Should we remove it, or is it doing useful
+  12             # service for robustness? Or could we replace it with an assertion that
+  13             # we're not being re-entered?
+  14 
+  15             with (await self <----
+
+'('NAME', 'self')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Fail to group formatting tokens, here:
+   8             #
+   9             # XXX this appears to be redundant, since the ReplicationCommandHandler
+  10             # has a linearizer which ensures that we only process one line of
+  11             # replication data at a time. Should we remove it, or is it doing useful
+  12             # service for robustness? Or could we replace it with an assertion that
+  13             # we're not being re-entered?
+  14 
+  15             with (await self <----
+
+'('NAME', 'self')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Error, got an unexpected token STAR here:
+
+  14         cl = int(cl)
+  15         im.show(ax=axes.flat[i], title=            
+  16 f'{classes[self.pred_class[idx]]}/{classes[cl]} / {self.losses[idx]:.2f} / {self.preds[idx][cl]:.2f}')
+  17         if heatmap:
+  18             mult = self.GradCAM(idx,heatmap_thresh,image=False)
+  19             if mult is not None:
+  20                 sz = list(im.shape[-2:])
+  21                 axes.flat[i].imshow(mult, alpha=0.6, extent=(0,*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+  31                 if field.attname in total_ordering_fields:
+  32                     break
+  33                 ordering_fields.add(field.attname)
+  34         else:
+  35             # No single total ordering field, try unique_together and total
+  36             # unique constraints.
+  37             constraint_field_names = (                
+  38 *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  10     except KeyError:
+  11         # No views have been registered for this model
+  12         views = []
+  13 
+  14     # Compile a list of tabs to be displayed in the UI
+  15     for config in views:
+  16         view = import_string(config['view']) if type(config['view']) is str else config['view']
+  17         if tab := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def test_batched_vs_single(self, info, args_kwargs, device):
+   2         if info.seed is not None:
+   3             set_rng_seed(info.seed)
+   4         (batched_input, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   1 async def test_custom_text(self):
+   2         max_word_len = lambda text: max([len(word) for word in text.split(" ")])
+   3         custom = lambda text: [(char, 1) for char in text]
+   4         text_interface = Interface(
+   5             max_word_len, "textbox", "label", interpretation=custom
+   6         
+   7         result = (await text_interface <----
+
+'('NAME', 'text_interface')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def noise_like(shape, device, repeat=False):
+   2     repeat_noise = lambda: torch.randn((1, *<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_PARENTHESIS, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Fail to group formatting tokens, here:
+   3 
+   4         assert self._worker_run_media_background_jobs
+   5 
+   6         now = self.clock.time_msec()
+   7 
+   8         logger.debug("Running url preview cache expiry")
+   9 
+  10         if not (await self <----
+
+'('NAME', 'self')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Can't find a matching token for this item: '_.'
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  14                 nat_inside_parent = instance.nat_inside.assigned_object
+  15                 if type(nat_inside_parent) is Interface:
+  16                     initial['nat_site'] = nat_inside_parent.device.site.pk
+  17                     if nat_inside_parent.device.rack:
+  18                         initial['nat_rack'] = nat_inside_parent.device.rack.pk
+  19                     initial['nat_device'] = nat_inside_parent.device.pk
+  20                 elif type(nat_inside_parent) is VMInterface:
+  21                     if cluster := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   1 async def test_default_text(self):
+   2         max_word_len = lambda text: max([len(word) for word in text.split(" ")])
+   3         text_interface = Interface(
+   4             max_word_len, "textbox", "label", interpretation="default"
+   5         )
+   6         interpretation = (await text_interface <----
+
+'('NAME', 'text_interface')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 async def async_test_stream(hass, info) -> dict[str, str]:
+   2     
+   3     if not (stream_source :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  25             i = search_backend.cache(model.objects.iterator(), remove_existing=False)
+  26             if i:
+  27                 self.stdout.write(f'{i} entries cached.')
+  28             else:
+  29                 self.stdout.write(f'None found.')
+  30 
+  31         msg = f'Completed.'
+  32         if total_count := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def _dynamic_index(x, idx):
+   2   if not idx: return x
+   3   ndim = len(x.shape)
+   4   starts = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token COLON here:
+
+   1 def pep572_examples():
+   2     # Handle a matched regex
+   3     if (match :<---- here
+
+The token COLON should be one of those: COMMA, FOR, RIGHT_PARENTHESIS
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   6                 name=f"Work Queue for Deployment that doesnt exist",
+   7                 filter=schemas.core.QueueFilter(
+   8                     deployment_ids=[uuid4()], tags=["tb12"]
+   9                 ),
+  10             ),
+  11         )
+  12         assert (
+  13             await models <----
+
+'('NAME', 'models')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+An error occurred: Error, got an unexpected token EQUAL here:
+
+  25             i = search_backend.cache(model.objects.iterator(), remove_existing=False)
+  26             if i:
+  27                 self.stdout.write(f'{i} entries cached.')
+  28             else:
+  29                 self.stdout.write(f'None found.')
+  30 
+  31         msg = f'Completed.'
+  32         if total_count := <---- here
+
+The token EQUAL should be one of those: ASSERT, BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, BREAK, COMMENT, COMPLEX, CONTINUE, DEL, ELLIPSIS, ENDL, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, FROM, GLOBAL, HEXA, IMPORT, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NONLOCAL, NOT, OCTA, PASS, PLUS, RAISE, RAW_STRING, RETURN, STAR, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING, YIELD
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Error, got an unexpected token STAR here:
+
+   1 def load_data(self) -> Any:
+   2         
+   3         model = load(self.model_path+self.model_filename+"_model.joblib")
+   4 
+   5         with open(self.model_path+self.model_filename+"_metadata.json", 'r') as fp:
+   6             self.data = json.load(fp)
+   7             if self.data.get('training_features_list'):
+   8                 self.training_features_list = [*<---- here
+
+The token STAR should be one of those: BACKQUOTE, BINARY, BINARY_RAW_STRING, BINARY_STRING, COMPLEX, ELLIPSIS, FLOAT, FLOAT_EXPONANT, FLOAT_EXPONANT_COMPLEX, HEXA, INT, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, LAMBDA, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SQUARE_BRACKET, LONG, MINUS, NAME, NOT, OCTA, PLUS, RAW_STRING, RIGHT_SQUARE_BRACKET, STRING, TILDE, UNICODE_RAW_STRING, UNICODE_STRING
+
+Baron has failed to parse this input. If this is valid python code (and by that I mean that the python binary successfully parse this code without any syntax error) (also consider that baron does not yet parse python 3 code integrally) it would be kind if you can extract a snippet of your code that make Baron fails and open a bug here: https://github.com/PyCQA/baron/issues
+
+Sorry for the inconvenience.
+An error occurred: Fail to group formatting tokens, here:
+   4         self.client = get_client()
+   5         await self.client.__aenter__()
+   6         await self.task_group.__aenter__()
+   7 
+   8         # Convert the passed default infrastructure to an id
+   9         if self.default_infrastructure and not self.default_infrastructure_document_id:
+  10             self.default_infrastructure_document_id = (
+  11                 await self <----
+
+'('NAME', 'self')' should have been in: AMPER, AMPER_EQUAL, AND, AS, AT, AT_EQUAL, BINARY_RAW_STRING, BINARY_STRING, CIRCUMFLEX, CIRCUMFLEX_EQUAL, COLON, COLON, COMMA, DOT, DOUBLE_SLASH, DOUBLE_SLASH_EQUAL, DOUBLE_STAR, DOUBLE_STAR_EQUAL, ELSE, ENDL, EQUAL, EQUAL_EQUAL, FOR, FROM, GREATER, GREATER_EQUAL, IF, IMPORT, IN, INTERPOLATED_RAW_STRING, INTERPOLATED_STRING, IS, LEFT_BRACKET, LEFT_PARENTHESIS, LEFT_SHIFT, LEFT_SHIFT_EQUAL, LEFT_SQUARE_BRACKET, LEFT_SQUARE_BRACKET, LESS, LESS_EQUAL, MINUS, MINUS_EQUAL, NOT, NOT_EQUAL, OR, PERCENT, PERCENT_EQUAL, PLUS, PLUS_EQUAL, RAW_STRING, RAW_STRING, RIGHT_BRACKET, RIGHT_PARENTHESIS, RIGHT_SHIFT, RIGHT_SHIFT_EQUAL, RIGHT_SQUARE_BRACKET, SLASH, SLASH_EQUAL, STAR, STAR_EQUAL, STRING, UNICODE_RAW_STRING, UNICODE_RAW_STRING, UNICODE_STRING, UNICODE_STRING, VBAR, VBAR_EQUAL
+
+Current value of 'in_grouping_mode': 1
+=========================== Transformation InfixDividing finished =============================
+=========================== Saving entangled InfixDividing transformation =============================
+=========================== Disentaglement InfixDividing started =============================
+=========================== Disentaglement InfixDividing finished =============================
+=========================== Saving disentangled InfixDividing transformation =============================

@@ -5,3 +5,8 @@ E0000 00:00:1739895915.022086   96571 cuda_blas.cc:1418] Unable to register cuBL
 2025-02-18 16:25:15.040703: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 =========================== Transformation Add2Equal started =============================
+=========================== Transformation Add2Equal finished =============================
+=========================== Saving entangled Add2Equal transformation =============================
+=========================== Disentaglement Add2Equal started =============================
+=========================== Disentaglement Add2Equal finished =============================
+=========================== Saving disentangled Add2Equal transformation =============================

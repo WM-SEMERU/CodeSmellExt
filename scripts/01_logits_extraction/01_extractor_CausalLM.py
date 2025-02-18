@@ -2,6 +2,10 @@
 # # Logits Extractor Module
 
 # %%
+# %%
+# Transformation names: 'RenameVariable-1' 'RenameVariable-2'
+#                       'Add2Equal' 'SwitchEqualExp''InfixDividing' 
+#                       'SwitchRelation' 
 def default_params(): 
     return {
         'current_model': 'M1',
@@ -9,7 +13,7 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
-            'transformation': 'curated',
+            'transformation': 'RenameVariable-1',
             'content_column': 'code',
             'sampling_size': 500,
         },
@@ -194,6 +198,8 @@ logit_extractor(
     tf_encoded_inputs = tf_encoded_inputs, 
     from_index=0
 )
+
+print("================================= PROCESS COMPLETE =================================")
 
 # %%
 torch.cuda.empty_cache()
