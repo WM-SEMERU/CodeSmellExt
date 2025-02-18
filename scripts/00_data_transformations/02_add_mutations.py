@@ -11,7 +11,7 @@ def default_params():
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'dataset_path' : '/workspaces/CodeSmells/semeru-datasets/code_smells',
         'sampling_size' : 500, 
-        'transformation_name' : 'RenameVariable-2'
+        'transformation_name' : 'SwitchRelation'
     }
 params = default_params()
 
@@ -51,7 +51,7 @@ logging.set_verbosity_error()
 dataset_df = pd.read_json(f"{params['dataset_path']}/curated_{params['sampling_size']}.json")
 
 # %%
-#dataset_df = dataset_df
+#dataset_df = dataset_df[:20]
 
 # %% [markdown]
 # ### Add mutations
@@ -216,7 +216,7 @@ def analyze_method(code_string):
             "token_counts": function.token_count
         })
     
-    return functions[0]
+    return functions[0] if functions else None
 
 # %%
 def disentangle_transformation(entangled_df):
@@ -261,10 +261,10 @@ def disentangle_transformation(entangled_df):
 
         # Lizard analysis
         lizard_result = analyze_method(code)
-        fun_name = lizard_result.get('fun_name')
-        complexity = lizard_result.get('complexity')
-        nloc = lizard_result.get('nloc')
-        token_counts = lizard_result.get('token_counts')
+        fun_name = lizard_result.get('fun_name') if lizard_result is not None else None
+        complexity = lizard_result.get('complexity')  if lizard_result is not None else None
+        nloc = lizard_result.get('nloc') if lizard_result is not None else None
+        token_counts = lizard_result.get('token_counts') if lizard_result is not None else None
 
         # AST analysis
         ast_errors, identifier_set, ast_deep, level, count = ast_error_detector.get_ast_errors_and_deep(code)
@@ -314,6 +314,10 @@ dataset_df = add_transformation(dataset_df, params['transformation_name'], trans
 print(f"=========================== Transformation {params['transformation_name']} finished =============================")
 
 # %%
+print(f"=========================== Saving entangled {params['transformation_name']} transformation =============================")
+dataset_df.to_json(f"{params['dataset_path']}/entangled_{params['transformation_name']}_{params['sampling_size']}.json", index=False)
+
+# %%
 print(f"=========================== Disentaglement {params['transformation_name']} started =============================")
 result_df = disentangle_transformation(dataset_df)
 print(f"=========================== Disentaglement {params['transformation_name']} finished =============================")
@@ -325,6 +329,7 @@ result_df.head(5)
 # ### Store the data
 
 # %%
+print(f"=========================== Saving disentangled {params['transformation_name']} transformation =============================")
 result_df.to_json(f"{params['dataset_path']}/transformed_{params['transformation_name']}_{params['sampling_size']}.json", index=False)
 
 

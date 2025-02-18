@@ -4,22 +4,27 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M2', 
+        'current_model': 'M1',
+        'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
-            'name': '/workspaces/CodeSmells/semeru-datasets/code_smells/codesmell_dataset.csv',
-            'content_column': 'code', 
-            'number_samples': 156151,
+            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
+            'transformation': 'curated',
+            'content_column': 'code',
+            'sampling_size': 500,
         },
-        'default_max_position_embeddings' : 400, ### CodeLlama Limit ---> 470.
-        'output_path': '/workspaces/CodeSmells/data/raw_logits',
-        'preprocessed_dataset_dir' : '/workspaces/CodeSmells/datax/code_smells/dataset_preprocessing',
-        'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
-        'log_file': '/workspaces/CodeSmells/datax/code_smells/logit_extraction.log', 
+        'logging_path': '/workspaces/CodeSmells/datax/code_smells/logs', 
         'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks',
+        'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'causal_models': {
-            'M1': 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
-            'M2': 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3
+            'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
+            'M2' : 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3,
+            'M3' : 'microsoft/Phi-3.5-mini-instruct', #https://huggingface.co/microsoft/Phi-3.5-mini-instruct 
+            'M4' : 'Qwen/Qwen2.5-Coder-7B', #https://huggingface.co/Qwen/Qwen2.5-Coder-7B
+            'M5' : 'facebook/incoder-6B', #https://huggingface.co/facebook/incoder-6B
+            'M6' : 'bigcode/starcoder2-7b', #https://huggingface.co/bigcode/starcoder2-7b 
+            'M7' : 'deepseek-ai/DeepSeek-R1-Distill-Llama-8B', #https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+            'M8' : 'deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B', #https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
         },
     }
 params = default_params()
@@ -45,8 +50,24 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from datasets import load_dataset
 
 # %%
+def create_folder(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+# %%
+# Define log file path
+log_file = f"{params['logging_path']}/{params['current_model']}/{params['dataset']['transformation']}"
+create_folder(log_file)
+log_file += '/log.txt'
+
+# Create the log file if it doesn't exist
+if not os.path.exists(log_file):
+    with open(log_file, 'w'): 
+        pass  # Create an empty log file
+
+# %%
 import logging
-logging.basicConfig(filename=params['log_file'], format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(filename=log_file, format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 # %% [markdown]
 # #### GPU
@@ -58,7 +79,7 @@ logging.basicConfig(filename=params['log_file'], format='%(asctime)s : %(levelna
 torch.__version__
 
 # %%
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() and params['gpu'] else "cpu")
 device
 
 # %%
@@ -106,15 +127,17 @@ model.to(device) #WARNING, Verify the device before assigning to memory
 # #### Dataset
 
 # %%
-df_dataset = pd.read_json(params['preprocessed_dataset_dir'] + '/' + params['current_model'] + '_q_' + params['quantization'] +'.json', )
+df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['dataset']['transformation']}_{params['dataset']['sampling_size']}.json", )
+
+# %%
+#df_dataset = df_dataset[df_dataset['input_lenght']>=700]
+#df_dataset = df_dataset[:20]
+
+# %%
+df_dataset.head(5)
 
 # %% [markdown]
 # #### Logit Inference
-
-# %%
-def create_folder(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
 
 # %%
 def logit_extractor(model, batch, tf_encoded_inputs, from_index=0):
@@ -123,9 +146,11 @@ def logit_extractor(model, batch, tf_encoded_inputs, from_index=0):
     logits (torch.FloatTensor of shape (batch_size, sequence_length, config.vocab_size)) – Prediction scores of the language modeling head (scores for each vocabulary token before SoftMax).
     The expression i.type(torch.LongTensor).to(device) is for casting labels for the loss
     """
-    create_folder(params['callbacks_dir']+ '/'+ params['current_model'] + '_q_' + params['quantization'])
+    callbacks_dir = f"{params['callbacks_dir']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['transformation']}"
+    create_folder(callbacks_dir)
     
     for idx, n in enumerate(range(from_index, len(tf_encoded_inputs), batch)):
+        torch.cuda.empty_cache()
         output = []
         for encoded_sample in tf_encoded_inputs[n:n+batch]:
             output.append( 
@@ -137,9 +162,9 @@ def logit_extractor(model, batch, tf_encoded_inputs, from_index=0):
         #Saving Callbacks
         current_batch = idx + (from_index//batch)
         for jdx, o_logits in enumerate(output_logits):
-            np.save( params['callbacks_dir']+ '/'+ params['current_model'] + '_q_' + params['quantization'] + '/' + f'logits_tensor[{jdx+n}]_batch[{current_batch}].npy', o_logits)
-        np.save( params['callbacks_dir']+ '/'+ params['current_model'] + '_q_' + params['quantization'] + '/' + f'_loss_batch[{current_batch}].npy', output_loss)
-
+            np.save(f"{callbacks_dir}/logits_tensor[{jdx+n}]_batch[{current_batch}].npy", o_logits)
+        np.save(f"{callbacks_dir}/_loss_batch[{current_batch}].npy", output_loss)
+        
         print(f"Batch [{current_batch}] Completed")
 
         #Memory Released
@@ -173,5 +198,6 @@ logit_extractor(
 # %%
 torch.cuda.empty_cache()
 gc.collect()
+del model
 
 
