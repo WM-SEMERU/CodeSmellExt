@@ -2,13 +2,17 @@
 # # Logits Preprocessing and Data Engineering
 
 # %%
+# %%
+# Transformation names: 'RenameVariable-1' 'RenameVariable-2'
+#                       'Add2Equal' 'SwitchEqualExp''InfixDividing' 
+#               
 def default_params(): 
     return {
         'current_model': 'M1', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
-            'transformation': 'curated',
+            'transformation': 'RenameVariable-2',
             'content_column': 'code',
             'sampling_size': 500,
         },
