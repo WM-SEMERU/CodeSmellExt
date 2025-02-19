@@ -51,6 +51,9 @@ logging.set_verbosity_error()
 dataset_df = pd.read_json(f"{params['dataset_path']}/curated_{params['sampling_size']}.json")
 
 # %%
+len(dataset_df)
+
+# %%
 #dataset_df = dataset_df[:20]
 
 # %% [markdown]
@@ -287,7 +290,9 @@ def disentangle_transformation(entangled_df):
 
     metrics_df = transformation_df.apply(compute_metrics, axis=1)
     transformation_df = pd.concat([transformation_df, metrics_df], axis=1)
-    return transformation_df[pd.notnull(transformation_df['code'])].reset_index(drop=True)
+    transformation_df = transformation_df[pd.notnull(transformation_df['code'])].reset_index(drop=True)
+    transformation_df = transformation_df[transformation_df['code']!=transformation_df['s_code']].reset_index(drop=True)
+    return transformation_df
 
 # %% [markdown]
 # ### Transformations Mapping
