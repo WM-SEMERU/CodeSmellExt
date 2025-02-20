@@ -12,7 +12,7 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
-            'transformation': 'RenameVariable-2',
+            'transformation': 'Add2Equal',
             'content_column': 'code',
             'sampling_size': 500,
         },

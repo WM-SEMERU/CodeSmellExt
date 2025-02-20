@@ -5,3 +5,8 @@ E0000 00:00:1739998366.280126  471357 cuda_blas.cc:1418] Unable to register cuBL
 2025-02-19 20:52:46.298333: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 =========================== Transformation SwitchRelation started =============================
+=========================== Transformation SwitchRelation finished =============================
+=========================== Saving entangled SwitchRelation transformation =============================
+=========================== Disentaglement SwitchRelation started =============================
+=========================== Disentaglement SwitchRelation finished =============================
+=========================== Saving disentangled SwitchRelation transformation =============================
