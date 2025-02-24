@@ -12,7 +12,7 @@ def default_params():
         'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
-            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
+            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/transformation',
             'transformation': 'SwitchRelation',
             'content_column': 'code',
             'sampling_size': 500,

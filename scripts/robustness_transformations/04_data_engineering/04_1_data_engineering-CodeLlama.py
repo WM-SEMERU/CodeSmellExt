@@ -11,8 +11,8 @@ def default_params():
         'current_model': 'M1', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
-            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/extraction',
-            'transformation': 'InfixDividing',
+            'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/transformation',
+            'transformation': 'SwitchRelation',
             'content_column': 'code',
             'sampling_size': 500,
         },
