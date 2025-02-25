@@ -8,3 +8,4 @@ E0000 00:00:1740425835.296615 1329964 cuda_dnn.cc:8310] Unable to register cuDNN
 E0000 00:00:1740425835.301578 1329964 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
 2025-02-24 19:37:15.315796: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+================================= PROCESS COMPLETED =================================
