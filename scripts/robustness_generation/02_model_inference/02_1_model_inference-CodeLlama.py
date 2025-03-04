@@ -67,6 +67,11 @@ device
 # %%
 torch.cuda.memory_allocated()
 
+# %%
+def create_folder(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
 # %% [markdown]
 # ### Model loading
 
@@ -103,6 +108,9 @@ pretrained_model.to(device) #WARNING, Verify the device before assigning to memo
 # %%
 completion_df = pd.read_json(params['dataset']['path'])
 
+# %%
+completion_df = completion_df[:5]
+
 # %% [markdown]
 # ### Complete prompts
 
@@ -129,10 +137,11 @@ def generate_text(prompt, decoding_strategy: str, max_length=None):
         output_ids = pretrained_model.generate(input_ids, attention_mask=attention_mask, max_length=max_length, do_sample=True, top_p=0.92, pad_token_id=tokenizer.pad_token_id)
     else:
         raise ValueError(f"Unsupported decoding strategy: {decoding_strategy}")
-
+    
 
     # Decode the generated text
     generated_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+    print(f"text generated using {decoding_strategy}")
 
     return generated_text
 
@@ -143,9 +152,13 @@ def complete_prompts(dataframe):
     prompt_lenght = len(tokenizer.encode(params['dataset']['prompt_text'], add_special_tokens=False))
     updated_dataframe = dataframe.copy()
     for decoding_strategy in params['decoding_strategies']:
+        print(f"======================================== STARTING GENERATION FOR f{decoding_strategy} =================================================")
         updated_dataframe[decoding_strategy] = updated_dataframe.apply(lambda row: generate_text(row[params['dataset']['prompt_column']], decoding_strategy ,len(tokenizer.encode(row[params['dataset']['content_column']], add_special_tokens=True)) + prompt_lenght+ params['completion_extra_limit']), axis=1)
-        #updated_dataframe[decoding_strategy] = updated_dataframe.apply(lambda row: generated_text(row[params['dataset']['prompt_column']], decoding_strategy), axis=1)
         updated_dataframe[decoding_strategy] = updated_dataframe[decoding_strategy].map(lambda completed_code: completed_code[len(params['dataset']['prompt_text']):])
+        print(f"======================================== FINISHED GENERATION FOR f{decoding_strategy} =================================================")
+        output_generation_dir = f"{params['output_generation_dir']}/{params['current_model']}_q_{params['quantization']}/checkpoints"
+        create_folder(output_generation_dir)
+        updated_dataframe.to_json(f"{output_generation_dir}/curated_generation_{decoding_strategy}_{params['dataset']['sampling_size']}.json")
     return updated_dataframe
 
 # %%
@@ -153,11 +166,6 @@ completed_df = complete_prompts(completion_df)
 
 # %% [markdown]
 # ### Store dataset 
-
-# %%
-def create_folder(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
 
 # %%
 output_generation_dir = f"{params['output_generation_dir']}/{params['current_model']}_q_{params['quantization']}"
