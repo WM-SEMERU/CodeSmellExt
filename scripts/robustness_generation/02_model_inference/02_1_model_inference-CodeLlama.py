@@ -108,9 +108,6 @@ pretrained_model.to(device) #WARNING, Verify the device before assigning to memo
 # %%
 completion_df = pd.read_json(params['dataset']['path'])
 
-# %%
-completion_df = completion_df[:5]
-
 # %% [markdown]
 # ### Complete prompts
 
@@ -152,10 +149,10 @@ def complete_prompts(dataframe):
     prompt_lenght = len(tokenizer.encode(params['dataset']['prompt_text'], add_special_tokens=False))
     updated_dataframe = dataframe.copy()
     for decoding_strategy in params['decoding_strategies']:
-        print(f"======================================== STARTING GENERATION FOR f{decoding_strategy} =================================================")
+        print(f"======================================== STARTING GENERATION FOR {decoding_strategy} =================================================")
         updated_dataframe[decoding_strategy] = updated_dataframe.apply(lambda row: generate_text(row[params['dataset']['prompt_column']], decoding_strategy ,len(tokenizer.encode(row[params['dataset']['content_column']], add_special_tokens=True)) + prompt_lenght+ params['completion_extra_limit']), axis=1)
         updated_dataframe[decoding_strategy] = updated_dataframe[decoding_strategy].map(lambda completed_code: completed_code[len(params['dataset']['prompt_text']):])
-        print(f"======================================== FINISHED GENERATION FOR f{decoding_strategy} =================================================")
+        print(f"======================================== FINISHED GENERATION FOR {decoding_strategy} =================================================")
         output_generation_dir = f"{params['output_generation_dir']}/{params['current_model']}_q_{params['quantization']}/checkpoints"
         create_folder(output_generation_dir)
         updated_dataframe.to_json(f"{output_generation_dir}/curated_generation_{decoding_strategy}_{params['dataset']['sampling_size']}.json")
