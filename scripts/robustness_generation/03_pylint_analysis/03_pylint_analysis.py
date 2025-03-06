@@ -11,7 +11,7 @@ def default_params():
         #['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
         'decoding_strategy' : 'greedy_search', 
         'dataset': {
-            'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset/M1_q_none/curated_generation_500.json',
+            'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset/M1_q_none/checkpoints/curated_generation_greedy_search_500.json',
             'prompt_column': 'prompt',
             'content_column' : 'code',
             'sampling_size': 500,
