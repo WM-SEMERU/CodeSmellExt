@@ -276,12 +276,23 @@ def disentangle_decoding_strategy(entangled_df):
     transformation_df = transformation_df[transformation_df['code']!=transformation_df['s_code']].reset_index(drop=True)
     return transformation_df
 
+# %%
+def run_pylint_and_fix_smell_values(generated_code):
+    return_value = None
+    try: 
+        return_value = [fix_smell_pos_values(smell) for smell in run_pylint_analysis(generated_code)]
+    except Exception as e:
+        print(f"Error ocurrend: {e}")
+    return return_value
+        
+
 # %% [markdown]
 # ### Execute
 
 # %%
 print(f"=========================== Decoding {params['decoding_strategy']} analysis started =============================")
-completion_df[params['decoding_strategy']] = completion_df[params['decoding_strategy']].map(lambda generated_code: [fix_smell_pos_values(smell) for smell in run_pylint_analysis(generated_code)])
+completion_df[params['decoding_strategy']] = completion_df[params['decoding_strategy']].map(lambda generated_code: run_pylint_and_fix_smell_values(generated_code))
+completion_df = completion_df.dropna(subset=[params['decoding_strategy']])
 print(f"=========================== Decoding {params['decoding_strategy']} analysis finished =============================")
 
 # %%
