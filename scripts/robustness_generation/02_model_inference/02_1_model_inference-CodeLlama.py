@@ -16,7 +16,8 @@ def default_params():
         },
         'completion_extra_limit': 100,
         'output_generation_dir': '/workspaces/CodeSmells/datax/code_smells/generation/dataset',
-        'decoding_strategies' : ['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling'],
+        #'decoding_strategies' : ['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling'],
+        'decoding_strategies' : ['top_p_sampling'],
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'causal_models': {
             'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 

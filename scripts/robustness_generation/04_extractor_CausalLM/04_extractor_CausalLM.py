@@ -8,12 +8,13 @@ def default_params():
         'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
-            'path': '/workspaces/CodeSmells/datax/code_smells/generation',
-            'decoding_strategy': 'curated',
+            'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset',
+            #['curated', 'greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
+            'decoding_strategy': 'greedy_search',
             'content_column': 'code',
             'sampling_size': 500,
         },
-        'logging_path': '/workspaces/CodeSmells/datax/code_smells/logs', 
+        'logging_path': '/workspaces/CodeSmells/datax/code_smells/logs/generation', 
         'callbacks_dir' : '/workspaces/CodeSmells/datax/code_smells/callbacks/generation',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'causal_models': {
@@ -127,7 +128,7 @@ model.to(device) #WARNING, Verify the device before assigning to memory
 # #### Dataset
 
 # %%
-df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['dataset']['decoding_strategy']}_{params['dataset']['sampling_size']}.json")
+df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['decoding_strategy']}_{params['dataset']['sampling_size']}.json")
 
 # %%
 df_dataset

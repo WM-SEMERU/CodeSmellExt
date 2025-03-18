@@ -9,14 +9,14 @@ def default_params():
         #['none',"int4", "int8", "float32", "float16"]
         'quantization': 'none', 
         #['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
-        'decoding_strategy' : 'greedy_search', 
+        'decoding_strategy' : 'top_p_sampling', 
         'dataset': {
-            'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset/M1_q_none/checkpoints/curated_generation_greedy_search_500.json',
+            'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset/M1_q_none/checkpoints/curated_generation_top_p_sampling_500.json',
             'prompt_column': 'prompt',
             'content_column' : 'code',
             'sampling_size': 500,
         },
-        'output_path': '/workspaces/CodeSmells/datax/code_smells/generation',
+        'output_path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset',
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
         'causal_models': {
             'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
