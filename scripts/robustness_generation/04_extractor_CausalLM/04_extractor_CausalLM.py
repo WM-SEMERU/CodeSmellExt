@@ -9,8 +9,8 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset',
-            #['curated', 'greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
-            'decoding_strategy': 'greedy_search',
+            #['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
+            'decoding_strategy': 'sampling',
             'content_column': 'code',
             'sampling_size': 500,
         },
@@ -128,7 +128,7 @@ model.to(device) #WARNING, Verify the device before assigning to memory
 # #### Dataset
 
 # %%
-df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['decoding_strategy']}_{params['dataset']['sampling_size']}.json")
+df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['current_model']}_q_{params['quantization']}/{params['dataset']['decoding_strategy']}_resampled_{params['dataset']['sampling_size']}.json")
 
 # %%
 df_dataset
