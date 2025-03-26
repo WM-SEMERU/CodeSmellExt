@@ -10,7 +10,7 @@ def default_params():
         'dataset': {
             'path': '/workspaces/CodeSmells/datax/code_smells/generation/dataset',
             #['greedy_search', 'beam_search', 'sampling', 'contrastive_search', 'top_k_sampling', 'top_p_sampling']
-            'decoding_strategy': 'sampling',
+            'decoding_strategy': 'curated',
             'content_column': 'code',
             'sampling_size': 500,
         },

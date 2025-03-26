@@ -1,0 +1,7 @@
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=0 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d0.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=1 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d1.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=2 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d2.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=3 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d3.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=4 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d4.txt &
+#nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=5 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d5.txt &
+nohup python3 -u /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/05_1_data_engineering-CodeLlama.py --d=6 > /workspaces/CodeSmells/scripts/robustness_generation/05_data_engineering/logs/m1_d6.txt &
