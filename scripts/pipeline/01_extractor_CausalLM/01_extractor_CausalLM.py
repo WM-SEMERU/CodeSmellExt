@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M2',
+        'current_model': 'M3',
         'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
@@ -19,7 +19,7 @@ def default_params():
             ##### BY ARCHITECTURE, SAME SIZE #####
             'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
             'M2' : 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3,
-            'M3' : 'google/codegemma-7b', #https://huggingface.co/google/codegemma-7b, 
+            'M3' : 'Qwen/Qwen2.5-Coder-7B', #https://huggingface.co/Qwen/Qwen2.5-Coder-7B,
             'M4' : 'bigcode/starcoder2-7b', #https://huggingface.co/bigcode/starcoder2-7b,
             ##### BY SIZE, SAME ARCHITECTURE #####
             'S1' : 'Qwen/Qwen2.5-Coder-0.5B', #https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B,
