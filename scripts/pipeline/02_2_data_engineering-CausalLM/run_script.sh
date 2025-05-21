@@ -1,0 +1,1 @@
+nohup python3 -u /workspaces/CodeSmells/scripts/pipeline/02_2_data_engineering-CausalLM/02_2_data_engineering-CausalLM.py > /workspaces/CodeSmells/scripts/pipeline/02_2_data_engineering-CausalLM/logs/model.txt &
