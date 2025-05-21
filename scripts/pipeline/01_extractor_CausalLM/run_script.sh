@@ -1,0 +1,1 @@
+nohup python3 -u /workspaces/CodeSmells/scripts/pipeline/01_extractor_CausalLM/01_extractor_CausalLM.py > /workspaces/CodeSmells/scripts/pipeline/01_extractor_CausalLM/logs/model.txt &
