@@ -1,0 +1,4 @@
+  File "/workspaces/CodeSmells/scripts/pipeline/01_extractor_CausalLM/01_extractor_CausalLM.py", line 77
+    ! nvidia-smi
+    ^
+SyntaxError: invalid syntax
