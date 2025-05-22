@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M3',
+        'current_model': 'M2',
         'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
@@ -98,7 +98,7 @@ torch.cuda.memory_allocated()
 # %%
 def instantiate_llm(model_name:str, cache_dir:str):
      '''Instantiate AutoModelForCausalLM'''
-     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir = cache_dir)
+     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir = cache_dir, use_fast=True)
      logging.info("Loaded AutoTokenizer - " + model_name)
      model = None
      if params['quantization'] == 'int4':

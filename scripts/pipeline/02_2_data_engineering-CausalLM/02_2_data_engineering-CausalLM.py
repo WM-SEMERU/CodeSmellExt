@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M2', 
+        'current_model': 'M4', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/pipeline/curated',
@@ -19,7 +19,7 @@ def default_params():
             ##### BY ARCHITECTURE, SAME SIZE #####
             'M1' : 'codellama/CodeLlama-7b-hf', #https://huggingface.co/codellama/CodeLlama-7b-hf, 
             'M2' : 'mistralai/Mistral-7B-v0.3', #https://huggingface.co/mistralai/Mistral-7B-v0.3,
-            'M3' : 'google/codegemma-7b', #https://huggingface.co/google/codegemma-7b, 
+            'M3' : 'Qwen/Qwen2.5-Coder-7B', #https://huggingface.co/Qwen/Qwen2.5-Coder-7B,
             'M4' : 'bigcode/starcoder2-7b', #https://huggingface.co/bigcode/starcoder2-7b,
             ##### BY SIZE, SAME ARCHITECTURE #####
             'S1' : 'Qwen/Qwen2.5-Coder-0.5B', #https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B,
@@ -90,7 +90,7 @@ df_dataset
 # %%
 def instantiate_llm(model_name:str, cache_dir:str):
      '''Instantiate AutoModelForCausalLM'''
-     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir = cache_dir)
+     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir = cache_dir, use_fast=True)
      logging.info("Loaded AutoTokenizer - " + model_name)
      model = None
      if params['quantization'] == 'int4':
@@ -111,7 +111,9 @@ def instantiate_llm(model_name:str, cache_dir:str):
 tokenizer, model = instantiate_llm(params['causal_models'][params['current_model']], params['cache_dir'])
 
 # %%
-model.config
+print(model.config)
+print(model.__class__)
+print(tokenizer.__class__)
 
 # %% [markdown]
 # #### preprocess dataset
@@ -124,33 +126,60 @@ df_dataset['input_lenght'] = df_dataset['input_ids'].map(lambda input_ids: len(i
 # #### Softmax Normalization and Data Engineering
 
 # %%
-def topk_tuple( logit_vocab_tensor, largest, tokenizer_fn):
-    "Run topk for a token"
-    topk = logit_vocab_tensor.topk( k=1 , largest=largest ) #TODO K number of elements can be extended
-    return ( tokenizer.convert_tokens_to_string([tokenizer_fn.decode(topk.indices)]), topk.values.item())
+def topk_tuple(logit_vocab_tensor, largest, tokenizer_fn):
+    """
+    Return the decoded top-1 (or bottom-1) token and its logit value.
+    """
+    topk = logit_vocab_tensor.topk(k=1, largest=largest)
+    top_token_id = topk.indices[0].item()
+    decoded_token = tokenizer_fn.decode([top_token_id])  # Already handles special tokens and spaces
+    return (decoded_token, topk.values[0].item())
 
-def min_max_logits( logit_vocab_sample_tensor, tokenizer_fn ):
-    "Compute min_max for a sample"
+# %%
+def analyze_logits(logit_tensor_sequence, input_token_ids, tokenizer_fn, skip_first_token=True):
+    """
+    Analyze logits for each token in a sequence.
+
+    Args:
+        logit_tensor_sequence (List[Tensor]): List of vocab-sized logits for each token position.
+        input_token_ids (List[int] or Tensor): Token IDs of the input prompt.
+        tokenizer_fn: HuggingFace tokenizer with .decode() method.
+        skip_first_token (bool): Whether to skip the first token prediction (default: True).
+
+    Returns:
+        dict with:
+            - "max_cases": list of (decoded top-1 token, logit value)
+            - "min_cases": list of (decoded bottom-1 token, logit value)
+            - "actual_logits": list of (decoded ground-truth token, logit value)
+    """
     max_cases = []
     min_cases = []
-    for logit_vocab_tensor in logit_vocab_sample_tensor:
-        max_cases.append( topk_tuple( logit_vocab_tensor = logit_vocab_tensor, largest = True, tokenizer_fn = tokenizer_fn) ) #TST Max Logit
-        min_cases.append( topk_tuple( logit_vocab_tensor = logit_vocab_tensor, largest = False, tokenizer_fn = tokenizer_fn) ) #TST Min Logit
-    return max_cases, min_cases
+    actual_logits = []
 
-def actual_logit( 
-                 logit_vocab_sample_tensor, 
-                 tokenized_prompt, 
-                 tokenizer_fn,
-                 ):
-    "Compute actual logits for a sample"
-    actual_logits_prompt = []
-    for token_pos, id_token in enumerate( tokenized_prompt[1:] ): #Eliminate the first token prediction since we do not use it
-        actual_logits_prompt.append(
-            (   tokenizer.convert_tokens_to_string([tokenizer_fn.decode( int(id_token))]), #retrieving the name of the token with the id
-                logit_vocab_sample_tensor[token_pos][int(id_token)].item()) #retrieving the logit given the position in the sequence and the position in the vocab
-            )
-    return actual_logits_prompt
+    start_index = 1 if skip_first_token else 0
+    token_targets = input_token_ids[start_index:]
+
+    for position, token_id in enumerate(token_targets):
+        vocab_logits = logit_tensor_sequence[position]
+
+        # Top-1 max and min predictions
+        max_case = topk_tuple(logit_vocab_tensor=vocab_logits, largest=True, tokenizer_fn=tokenizer_fn)
+        min_case = topk_tuple(logit_vocab_tensor=vocab_logits, largest=False, tokenizer_fn=tokenizer_fn)
+
+        # Actual token logit
+        decoded_token = tokenizer_fn.decode([int(token_id)])
+        logit_value = vocab_logits[int(token_id)].item()
+        actual_case = (decoded_token, logit_value)
+
+        max_cases.append(max_case)
+        min_cases.append(min_case)
+        actual_logits.append(actual_case)
+
+    return {
+        "max_cases": max_cases,
+        "min_cases": min_cases,
+        "actual_logits": actual_logits
+    }
 
 # %%
 soft = torch.nn.Softmax( dim = 0 ) #Flattening normalization
@@ -164,72 +193,77 @@ out = out[0]
 
 
 # %%
-max_case,min_case = min_max_logits(
-    logit_vocab_sample_tensor = [ soft( torch.from_numpy(token) ) for token in out], ####### 
-    tokenizer_fn= tokenizer
-    )
-print(max_case)
-assert len(max_case) == len(min_case)
-
-# %%
-assert tokenizer.decode(df_dataset['input_ids'][0]) == df_dataset[params['dataset']['content_column']][0]
-df_dataset[params['dataset']['content_column']][0]
-
-# %%
 input_ids_list = tokenizer.batch_encode_plus(df_dataset[params['dataset']['content_column']].tolist())
 input_ids_list = [torch.tensor(  input_ids, dtype = torch.int) for input_ids in input_ids_list.input_ids]
 
-actual_cases = actual_logit(
-    logit_vocab_sample_tensor = [ soft( torch.from_numpy(token) ) for token in out] , #Out is a complete sequence
-    tokenized_prompt = input_ids_list[0], ## SAMPLE ID
+logit_dict = analyze_logits(
+    logit_tensor_sequence = [ soft( torch.from_numpy(token) ) for token in out] , #Out is a complete sequence
+    input_token_ids = input_ids_list[0], ## SAMPLE ID
     tokenizer_fn = tokenizer
-    )
-actual_cases
+)
+
+# %%
+assert len(set(len(v) for v in logit_dict.values())) == 1, "All key array values in logit_dict do not have the same length"
 
 # %% [markdown]
 # #### Processing all the Batches
 
 # %%
-def batching_logits(tokenizer,tf_input_ids,size=10000):
-    max_logit_token_prompt = []
-    min_logit_token_prompt = []
-    actual_logit_token_prompt = []
+def process_logit_batches(tokenizer, tokenized_inputs, num_samples=10000, skip_first_token=True):
+    """
+    Process multiple saved logits files and extract:
+    - top-1 max logit predictions,
+    - top-1 min logit predictions,
+    - actual logits for ground-truth tokens.
 
-    
-    soft = torch.nn.Softmax( dim = 0 )                          #Flattening normalization
-    
-    for file in range( size ):
-        callbacks_dir = f"{params['callbacks_path']}/{params['current_model']}_q_{params['quantization']}"
-        out = np.load(f"{callbacks_dir}/logits_tensor[{file}]_batch[{file}].npy") #<sample,tokens,voc_tokens>
-        out = out[0]  ##### #<tokens,voc_tokens>
-        next_tokens_distribution = [ soft( torch.from_numpy(token) ) for token in out]  #Flattening normalization
-        
-        max_cases,min_cases = min_max_logits(
-            logit_vocab_sample_tensor = next_tokens_distribution,
-            tokenizer_fn= tokenizer
-            )
+    Args:
+        tokenizer: HuggingFace tokenizer instance.
+        tokenized_inputs (List[Tensor]): Tokenized input prompts (one per sample).
+        num_samples (int): Number of samples to process.
+        skip_first_token (bool): Whether to skip the first token prediction.
 
-        actual_cases = actual_logit(
-            logit_vocab_sample_tensor = next_tokens_distribution,
-            tokenized_prompt = tf_input_ids[ file ],
-            tokenizer_fn = tokenizer
-            )
-        
-        max_logit_token_prompt.append( max_cases )
-        min_logit_token_prompt.append( min_cases )
-        actual_logit_token_prompt.append( actual_cases )
-        
-        logging.info(file)
-    return max_logit_token_prompt,min_logit_token_prompt,actual_logit_token_prompt
+    Returns:
+        Tuple of lists: (max_logit_predictions, min_logit_predictions, actual_logits)
+    """
+    max_logit_predictions = []
+    min_logit_predictions = []
+    actual_logit_scores = []
+
+    softmax_fn = torch.nn.Softmax(dim=0)
+    base_path = f"{params['callbacks_path']}/{params['current_model']}_q_{params['quantization']}"
+
+    for sample_idx in range(num_samples):
+        logits_file_path = f"{base_path}/logits_tensor[{sample_idx}]_batch[{sample_idx}].npy"
+        logits_array = np.load(logits_file_path)[0]  # Shape: [sequence_length, vocab_size]
+
+        # Apply softmax to each token’s logits
+        normalized_logits = [softmax_fn(torch.from_numpy(token_logits)) for token_logits in logits_array]
+
+        # Analyze logits using the unified function
+        result = analyze_logits(
+            logit_tensor_sequence=normalized_logits,
+            input_token_ids=tokenized_inputs[sample_idx],
+            tokenizer_fn=tokenizer,
+            skip_first_token=skip_first_token
+        )
+
+        max_logit_predictions.append(result["max_cases"])
+        min_logit_predictions.append(result["min_cases"])
+        actual_logit_scores.append(result["actual_logits"])
+
+        logging.info(f"Processed sample {sample_idx}")
+        print(f"Processed sample {sample_idx}")
+
+    return max_logit_predictions, min_logit_predictions, actual_logit_scores
 
 # %%
 input_ids_list = tokenizer.batch_encode_plus(df_dataset[params['dataset']['content_column']].tolist())
 input_ids_list = [torch.tensor(  input_ids, dtype = torch.int) for input_ids in input_ids_list.input_ids]
 
 # %%
-max_logit_token_prompt, min_logit_token_prompt, actual_logit_token_prompt = batching_logits(
-    tokenizer=tokenizer , tf_input_ids=input_ids_list, 
-    size = len(df_dataset)
+max_logit_token_prompt, min_logit_token_prompt, actual_logit_token_prompt = process_logit_batches(
+    tokenizer=tokenizer , tokenized_inputs=input_ids_list, 
+    num_samples = len(df_dataset)
 ) #<---WARNING TIME Consuming
 
 # %% [markdown]
