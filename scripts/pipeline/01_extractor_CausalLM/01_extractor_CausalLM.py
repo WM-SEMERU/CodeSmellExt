@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'M2',
+        'current_model': 'S4',
         'gpu': True,
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
