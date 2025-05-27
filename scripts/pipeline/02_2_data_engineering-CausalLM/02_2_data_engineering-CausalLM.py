@@ -4,7 +4,7 @@
 # %%
 def default_params(): 
     return {
-        'current_model': 'S3', 
+        'current_model': 'S4', 
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/pipeline/curated',
