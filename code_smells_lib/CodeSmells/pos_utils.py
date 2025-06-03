@@ -10,7 +10,7 @@ import subprocess
 import importlib.util
 
 # %% ../nbs/02_pos_utils.ipynb 3
-UNIVERSAL_SEMANTIC_TAGS = {'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'NUM', 'INTJ'}
+UNIVERSAL_SEMANTIC_TAGS = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'NUM', 'INTJ']
 
 # %% ../nbs/02_pos_utils.ipynb 4
 def load_spacy_model(model_name="en_core_web_sm"):
