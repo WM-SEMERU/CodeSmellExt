@@ -11,7 +11,7 @@ def default_params():
             'path': '/workspaces/CodeSmells/semeru-datasets/code_smells/prompts',
             'content_column': 'code',
             'sampling_size': 500,
-            'prompt_id': 'P1', #['P1', 'P2', 'P3', 'P4']
+            'prompt_id': 'P4', #['P1', 'P2', 'P3', 'P4']
             'prompt_column': 'prompt',
         },
         'logging_path': '/workspaces/CodeSmells/datax/code_smells/logs', 
