@@ -33,6 +33,7 @@ params = default_params()
 # %%
 import pandas as pd
 import os
+from collections import defaultdict
 
 # %% [markdown]
 # ### Append Semantic Features
@@ -42,6 +43,7 @@ def append_semantic_features(df, semantic_features: list):
     """
     Appends semantic features to the DataFrame
     """
+    print(f"[append_semantic_features] Called with DataFrame of shape {df.shape} and {len(semantic_features)} semantic features.")
     def update_row(row):
         row_semantic_features = pos_utils.count_pos_tags(row['code'])
         for feature in semantic_features:
@@ -49,11 +51,12 @@ def append_semantic_features(df, semantic_features: list):
                 row[feature] = row_semantic_features[feature]
         return row
 
-
     updated_df = df.copy()
     for feature in semantic_features:
         updated_df[feature] = 0
+    print(f"[append_semantic_features] Initialized semantic feature columns to 0.")
     updated_df = updated_df.apply(update_row, axis=1)
+    print(f"[append_semantic_features] Finished updating DataFrame. New shape: {updated_df.shape}")
     return updated_df
 
 # %%
@@ -68,6 +71,44 @@ def keep_shared_columns(dfs):
         shared_cols &= set(df.columns)
     shared_cols = list(shared_cols)  # Convert set to list for pandas indexing
     return [df.loc[:, shared_cols].copy() for df in dfs]
+
+# %%
+def append_semantic_features_batch(dfs, semantic_features):
+    """
+    Optimized: Only computes semantic features for unique 'id's across all DataFrames in the list.
+    """
+    print(f"[append_semantic_features_batch] Number of DataFrames: {len(dfs)}")
+    # Collect all unique ids and map from id to DataFrame row (assume 'id' is unique per DataFrame)
+    id_to_row = {}
+    total_rows = 0
+    for df_idx, df in enumerate(dfs):
+        print(f"  Processing DataFrame {df_idx} with {len(df)} rows")
+        total_rows += len(df)
+        for _, row in df.iterrows():
+            id_to_row[row['id']] = row
+    print(f"  Total rows processed: {total_rows}")
+    print(f"  Unique ids found: {len(id_to_row)}")
+
+    # Compute semantic features only once per unique id
+    id_to_semantics = {}
+    print("  Computing semantic features for unique ids...")
+    for idx, (id_val, row) in enumerate(id_to_row.items()):
+        if idx % 100 == 0 and idx > 0:
+            print(f"    Processed {idx} / {len(id_to_row)} ids")
+        row_semantic_features = pos_utils.count_pos_tags(row['code'])
+        id_to_semantics[id_val] = {feature: row_semantic_features.get(feature, 0) for feature in semantic_features}
+    print("  Semantic feature computation complete.")
+
+    # Now, for each DataFrame, add the semantic features using the id
+    updated_dfs = []
+    for df_idx, df in enumerate(dfs):
+        print(f"  Adding semantic features to DataFrame {df_idx}")
+        updated_df = df.copy()
+        for feature in semantic_features:
+            updated_df[feature] = updated_df['id'].map(lambda x: id_to_semantics[x][feature])
+        updated_dfs.append(updated_df)
+    print("[append_semantic_features_batch] Done.")
+    return updated_dfs
 
 # %% [markdown]
 # ### Dataset Loading
@@ -157,12 +198,27 @@ else:
     print("No DataFrames to compare.")
 
 # %%
-#### APPEND SEMANTIC FEATURES
+#generation_type_dfs = generation_type_dfs[:1]
+#model_size_dfs = model_size_dfs[:1]
+#model_architecture_dfs = model_architecture_dfs[:1]
+#prompt_dfs = prompt_dfs[:1]
+
+#generation_type_dfs[0] = generation_type_dfs[0][:10]
+#model_size_dfs[0] = model_size_dfs[0][:10]
+#model_architecture_dfs[0] = model_architecture_dfs[0][:10]
+#prompt_dfs[0] = prompt_dfs[0][:10]
+
+# %%
+#### WARNING TAKES TIME
+
 print("Appending semantic features to DataFrames...")
+### SAMPLES NOT KEEP FEATURES PER ID (UNCONDITIONED)
 generation_type_dfs = [append_semantic_features(df, params['features']['semantic']) for df in generation_type_dfs]
-model_size_dfs = [append_semantic_features(df, params['features']['semantic']) for df in model_size_dfs]
-model_architecture_dfs = [append_semantic_features(df, params['features']['semantic']) for df in model_architecture_dfs]
-prompt_dfs = [append_semantic_features(df, params['features']['semantic']) for df in prompt_dfs]
+
+### SAMPLES KEEP FEATURES PER ID (CONDITIONED)
+model_size_dfs = append_semantic_features_batch(model_size_dfs, params['features']['semantic'])
+model_architecture_dfs = append_semantic_features_batch(model_architecture_dfs, params['features']['semantic'])
+prompt_dfs = append_semantic_features_batch(prompt_dfs, params['features']['semantic'])
 
 # %% [markdown]
 # ### Store Dataframes
