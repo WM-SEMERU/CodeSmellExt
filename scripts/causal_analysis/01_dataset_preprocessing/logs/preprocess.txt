@@ -58,3 +58,7 @@ Appending semantic features to DataFrames...
     Processed 2500 / 17030 ids
     Processed 2600 / 17030 ids
     Processed 2700 / 17030 ids
+    
+
+
+    

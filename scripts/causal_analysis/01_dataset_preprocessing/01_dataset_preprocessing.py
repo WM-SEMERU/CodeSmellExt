@@ -214,11 +214,14 @@ else:
 print("Appending semantic features to DataFrames...")
 ### SAMPLES NOT KEEP FEATURES PER ID (UNCONDITIONED)
 generation_type_dfs = [append_semantic_features(df, params['features']['semantic']) for df in generation_type_dfs]
+model_size_dfs = [append_semantic_features(df, params['features']['semantic']) for df in model_size_dfs]
+model_architecture_dfs = [append_semantic_features(df, params['features']['semantic']) for df in model_architecture_dfs]
+prompt_dfs = [append_semantic_features(df, params['features']['semantic']) for df in prompt_dfs]
 
 ### SAMPLES KEEP FEATURES PER ID (CONDITIONED)
-model_size_dfs = append_semantic_features_batch(model_size_dfs, params['features']['semantic'])
-model_architecture_dfs = append_semantic_features_batch(model_architecture_dfs, params['features']['semantic'])
-prompt_dfs = append_semantic_features_batch(prompt_dfs, params['features']['semantic'])
+#model_size_dfs = append_semantic_features_batch(model_size_dfs, params['features']['semantic'])
+#model_architecture_dfs = append_semantic_features_batch(model_architecture_dfs, params['features']['semantic'])
+#prompt_dfs = append_semantic_features_batch(prompt_dfs, params['features']['semantic'])
 
 # %% [markdown]
 # ### Store Dataframes
