@@ -21,8 +21,8 @@ def default_params():
             'semantic' : [] + pos_utils.UNIVERSAL_SEMANTIC_TAGS,
         },
         'intervention' : {
-            'type': 'T1', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
-            'control': 'curated', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
+            'type': 'T4', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
+            'control': 'P1', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
         },
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
     }

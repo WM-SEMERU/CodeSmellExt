@@ -184,3 +184,9 @@ stdout
 
 /NIER/
 /NIER/*
+
+/workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/*
+/workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/
+
+*/logs/
+*/logs/*
