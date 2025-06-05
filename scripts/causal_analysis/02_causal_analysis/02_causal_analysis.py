@@ -194,7 +194,7 @@ def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outco
         .reset_index(drop=True))
     
     causal_model = CausalModel(
-            data=intervention_df,
+            data=balanced_causal_hypothesis_df,
             treatment=['treatment'],
             outcome=outcomes,
             common_causes=params['causal_analysis']['common_causes'](params['features']['syntactic'] + params['features']['semantic']),
