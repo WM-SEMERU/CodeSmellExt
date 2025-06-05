@@ -1,4 +1,4 @@
-#nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=1 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T1.txt &
+nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=1 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T1.txt &
 #nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=2 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T2.txt &
 #nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=3 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T3.txt &
-nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=4 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T4.txt &
+#nohup python3 -u  /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/02_causal_analysis.py --T=4 > /workspaces/CodeSmells/scripts/causal_analysis/02_causal_analysis/logs/T4.txt &
