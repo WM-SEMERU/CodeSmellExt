@@ -108,11 +108,17 @@ def compute_ATE_and_refute(causal_model, identified_estimand, method_name, metho
             'refutation_subset' : {'result' : refutation_subset.refutation_result, 'new_effect': refutation_subset.new_effect},}
 
 def compute_correlations(input_corr_data, outout_corr_data):
+    # Ensure both arrays have at least 2 elements
+    if len(input_corr_data) < 2 or len(outout_corr_data) < 2:
+        return {'pearson_corr': None, 'spearman_corr': None, 'kendall_corr': None}
     pearson_corr =  stats.pearsonr(input_corr_data, outout_corr_data)
     spearman_corr = stats.spearmanr(input_corr_data, outout_corr_data)
     kendall_corr = stats.kendalltau(input_corr_data, outout_corr_data)
-    return {'pearson_corr' : pearson_corr.statistic, 'spearman_corr' : spearman_corr.statistic, 'kendall_corr' : kendall_corr.statistic}
-
+    return {
+        'pearson_corr': pearson_corr.statistic,
+        'spearman_corr': spearman_corr.statistic,
+        'kendall_corr': kendall_corr.statistic
+    }
 def compute_causal_effects(causal_model):
     causal_effects_df = pd.DataFrame(columns=['method_name', 'pearson_corr', 'spearman_corr', 'kendall_corr' ,'estimated_effect', 'refutation_placebo_permute', 'refutation_unobserved_confounder', 'refutation_subset'])
     ####### COMPUTE PEARSON
