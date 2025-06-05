@@ -139,7 +139,7 @@ def compute_causal_effects(causal_model):
 
 
 # %%
-def compute_causal_effect_for_treatments(causal_hypothesis_df, outcomes):
+def compute_causal_effect_for_binary_treatments(causal_hypothesis_df, outcomes):
     """
     Computes causal effects for each treatment (excluding control) in the given DataFrame.
     Returns a list of result DataFrames, one per treatment.
@@ -178,20 +178,49 @@ def compute_causal_effect_for_treatments(causal_hypothesis_df, outcomes):
         causal_effect_dfs.append(result_df)
     return causal_effect_dfs
 
-def compute_causal_effects_smells(causal_hypothesis_df, outcomes):
+def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes):
+    """
+    Computes causal effects for categorical in the given DataFrame.
+    """
+    causal_effect_dfs = []
+
+    # Compute the minimum group size
+    group_sizes = causal_hypothesis_df['treatment'].value_counts()
+    min_size = group_sizes.min()
+    # Sample min_size rows from each treatment group
+    balanced_causal_hypothesis_df = (causal_hypothesis_df
+        .groupby('treatment', group_keys=False)
+        .apply(lambda x: x.sample(n=min_size, random_state=42))
+        .reset_index(drop=True))
+    
+    causal_model = CausalModel(
+            data=intervention_df,
+            treatment=['treatment'],
+            outcome=outcomes,
+            common_causes=params['causal_analysis']['common_causes'](params['features']['syntactic'] + params['features']['semantic']),
+            effect_modifiers=params['causal_analysis']['effect_modifiers'](None),
+            instruments=params['causal_analysis']['instruments'](None))
+    
+     # Store results
+    result_df = compute_causal_effects(causal_model)
+    result_df['intervention'] = treatment
+    causal_effect_dfs.append(result_df)
+    return causal_effect_dfs
+        
+def compute_causal_effects_smells(causal_hypothesis_df, outcomes, binary_treatments=True):
     s_msg_id_effects = {}
     for s_msg_id in causal_hypothesis_df['s_msg_id'].unique():
         print(f"=========== CAUSAL ANALYSIS FOR CODE SMELL-{s_msg_id} ===========")
         # Subset for current s_msg_id
         causal_hypothesis_subset = causal_hypothesis_df[causal_hypothesis_df['s_msg_id'] == s_msg_id].copy()
-        causal_effect_dfs = compute_causal_effect_for_treatments(causal_hypothesis_subset, outcomes)
+        causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_subset, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_subset, outcomes)
         s_msg_id_effects_df = pd.concat(causal_effect_dfs, ignore_index=True)
         s_msg_id_effects_df['s_msg_id'] = s_msg_id
         s_msg_id_effects[s_msg_id] = s_msg_id_effects_df
     return s_msg_id_effects
 
-def compute_causal_effect_hypothesis(causal_hypothesis_df, outcomes):
-    causal_effect_dfs = compute_causal_effect_for_treatments(causal_hypothesis_df, outcomes)
+def compute_causal_effect_hypothesis(causal_hypothesis_df, outcomes, binary_treatments=True):
+    causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_df, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes)
     return pd.concat(causal_effect_dfs, ignore_index=True)
 
 # %%
@@ -204,24 +233,38 @@ def create_folder(path):
 
 # %%
 def execute_analysis_per_smell(outcomes, causal_hypothesis_df):
-    for outcome in outcomes:
-        print(f"============================= COMPUTING ANALYSIS FOR OUTCOME-{outcome} ==================================== ")
-        causal_effect_outcome_dict = compute_causal_effects_smells(causal_hypothesis_df, [outcome])
-        print(f"============================= STORING ANALYSIS FOR OUTCOME-{outcome} ==================================== ")
-        output_path = f"{params['output_path']}/{params['intervention']['type']}"
+    def run_and_store(outcome, binary_treatments, subfolder=""):
+        analysis_type = "CATEGORICAL" if not binary_treatments else ""
+        print(f"============================= COMPUTING ANALYSIS FOR OUTCOME-{outcome} {analysis_type} ==================================== ")
+        causal_effect_outcome_dict = compute_causal_effects_smells(
+            causal_hypothesis_df, [outcome], binary_treatments=binary_treatments
+        )
+        print(f"============================= STORING ANALYSIS FOR OUTCOME-{outcome} {analysis_type} ==================================== ")
+        output_path = f"{params['output_path']}/{params['intervention']['type']}{subfolder}"
         create_folder(output_path)
         causal_effects_outcome_df = pd.concat(causal_effect_outcome_dict.values(), ignore_index=True)
-        causal_effects_outcome_df.to_json(f"{output_path}/{[outcome]}.json")
+        causal_effects_outcome_df.to_json(f"{output_path}/{outcome}.json")
+
+    for outcome in outcomes:
+        run_and_store(outcome, binary_treatments=True)
+        run_and_store(outcome, binary_treatments=False, subfolder="/categorial")
 
 # %%
 def execute_analysis(outcomes, causal_hypothesis_df):
-    for outcome in outcomes:
-        print(f"============================= COMPUTING ANALYSIS FOR OUTCOME-{outcome} ==================================== ")
-        causal_effects_outcome_df = compute_causal_effect_hypothesis(causal_hypothesis_df, [outcome])
-        print(f"============================= STORING ANALYSIS FOR OUTCOME-{outcome} ==================================== ")
-        output_path = f"{params['output_path']}/{params['intervention']['type']}"
+    def run_and_store(outcome, binary_treatments, subfolder="", suffix=""):
+        analysis_type = " CATEGORICAL" if not binary_treatments else ""
+        print(f"============================= COMPUTING ANALYSIS FOR OUTCOME-{outcome}{analysis_type} ==================================== ")
+        causal_effects_outcome_df = compute_causal_effect_hypothesis(
+            causal_hypothesis_df, [outcome], binary_treatments=binary_treatments
+        )
+        print(f"============================= STORING ANALYSIS FOR OUTCOME-{outcome}{analysis_type} ==================================== ")
+        output_path = f"{params['output_path']}/{params['intervention']['type']}{subfolder}"
         create_folder(output_path)
-        causal_effects_outcome_df.to_json(f"{output_path}/{[outcome]}_ALL.json")
+        causal_effects_outcome_df.to_json(f"{output_path}/{outcome}{suffix}.json")
+
+    for outcome in outcomes:
+        run_and_store(outcome, binary_treatments=True, suffix="_ALL")
+        run_and_store(outcome, binary_treatments=False, subfolder="/categorical", suffix="_ALL")
 
 # %%
 print("########################### Executing causal analysis per smell ###########################")
