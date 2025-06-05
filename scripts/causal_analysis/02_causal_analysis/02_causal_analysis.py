@@ -144,8 +144,8 @@ def compute_causal_effect_hypothesis(causal_hypothesis_df, outcomes):
         control_df = causal_hypothesis_df[causal_hypothesis_df['treatment']==params['intervention']['control']].copy()
 
         ### Ensure treatment_df and control_df have the same size, choose the smallest size
-        #min_size = min(len(treatment_df), len(control_df))
-        min_size = 1000
+        min_size = min(len(treatment_df), len(control_df))
+        #min_size = 1000 ### ONLY FOR TESTING
         treatment_df = treatment_df.sample(n=min_size, random_state=42).reset_index(drop=True)
         control_df = control_df.sample(n=min_size, random_state=42).reset_index(drop=True)
 
