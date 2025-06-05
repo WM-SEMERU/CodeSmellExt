@@ -107,23 +107,45 @@ def compute_ATE_and_refute(causal_model, identified_estimand, method_name, metho
             'refutation_unobserved_confounder' : {'result' : refutation_unobserved_confounder.refutation_result, 'new_effect': refutation_unobserved_confounder.new_effect}, 
             'refutation_subset' : {'result' : refutation_subset.refutation_result, 'new_effect': refutation_subset.new_effect},}
 
+
 def compute_correlations(input_corr_data, outout_corr_data):
     # Ensure both arrays have at least 2 elements
     if len(input_corr_data) < 2 or len(outout_corr_data) < 2:
         return {'pearson_corr': None, 'spearman_corr': None, 'kendall_corr': None}
-    pearson_corr =  stats.pearsonr(input_corr_data, outout_corr_data)
-    spearman_corr = stats.spearmanr(input_corr_data, outout_corr_data)
-    kendall_corr = stats.kendalltau(input_corr_data, outout_corr_data)
-    return {
-        'pearson_corr': pearson_corr.statistic,
-        'spearman_corr': spearman_corr.statistic,
-        'kendall_corr': kendall_corr.statistic
-    }
-def compute_causal_effects(causal_model):
+
+    # Try to convert input to numeric
+    input_numeric = pd.to_numeric(input_corr_data, errors='coerce')
+    is_numeric = not pd.isnull(input_numeric).any()
+
+    if is_numeric:
+        # Standard numeric correlation
+        pearson_corr = stats.pearsonr(input_numeric, outout_corr_data).statistic
+        spearman_corr = stats.spearmanr(input_numeric, outout_corr_data).statistic
+        kendall_corr = stats.kendalltau(input_numeric, outout_corr_data).statistic
+        return {
+            'pearson_corr': pearson_corr,
+            'spearman_corr': spearman_corr,
+            'kendall_corr': kendall_corr
+        }
+    else:
+        # Categorical: one-hot encode and compute correlation for each category
+        one_hot = pd.get_dummies(input_corr_data)
+        pearson_corrs = {
+            col: stats.pearsonr(one_hot[col], outout_corr_data).statistic
+            for col in one_hot.columns
+        }
+        return {
+            'pearson_corr': pearson_corrs,
+            'spearman_corr': None,
+            'kendall_corr': None
+        }
+    
+
+def compute_causal_effects(causal_model, treatment_column = 'binary_treatment'):
     causal_effects_df = pd.DataFrame(columns=['method_name', 'pearson_corr', 'spearman_corr', 'kendall_corr' ,'estimated_effect', 'refutation_placebo_permute', 'refutation_unobserved_confounder', 'refutation_subset'])
     ####### COMPUTE PEARSON
     #correlation_results = compute_correlations(list(causal_model._data[causal_model._common_causes].mean(axis=1)), list(causal_model._data[causal_model._outcome].mean(axis=1)))
-    correlation_results = compute_correlations(causal_model._data['binary_treatment'].tolist(), list(causal_model._data[causal_model._outcome].mean(axis=1)))
+    correlation_results = compute_correlations(causal_model._data[treatment_column].tolist(), list(causal_model._data[causal_model._outcome].mean(axis=1)))
     ####### COMPUTE ESTIMAND
     identified_estimand = causal_model.identify_effect(proceed_when_unidentifiable=True)
     ###### COMPUTE CAUSAL EFFECT - BACKDOOR - propensity_score_matching
@@ -182,8 +204,6 @@ def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outco
     """
     Computes causal effects for categorical in the given DataFrame.
     """
-    causal_effect_dfs = []
-
     # Compute the minimum group size
     group_sizes = causal_hypothesis_df['treatment'].value_counts()
     min_size = group_sizes.min()
@@ -202,10 +222,9 @@ def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outco
             instruments=params['causal_analysis']['instruments'](None))
     
      # Store results
-    result_df = compute_causal_effects(causal_model)
-    result_df['intervention'] = treatment
-    causal_effect_dfs.append(result_df)
-    return causal_effect_dfs
+    result_df = compute_causal_effects(causal_model, treatment_column='treatment')
+    result_df['intervention'] = balanced_causal_hypothesis_df['treatment']
+    return [result_df]
         
 def compute_causal_effects_smells(causal_hypothesis_df, outcomes, binary_treatments=True):
     s_msg_id_effects = {}
