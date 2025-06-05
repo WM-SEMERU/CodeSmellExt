@@ -1,1 +1,6 @@
 Loading alignments...
+All DataFrames have the same columns: True
+All DataFrames from all lists have the same columns: True
+Appending semantic features to DataFrames...
+[append_semantic_features] Called with DataFrame of shape (21423, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
