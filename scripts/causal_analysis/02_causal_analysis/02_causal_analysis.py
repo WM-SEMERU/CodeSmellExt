@@ -21,8 +21,9 @@ def default_params():
             'semantic' : [] + pos_utils.UNIVERSAL_SEMANTIC_TAGS,
         },
         'intervention' : {
-            'type': 'T1', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
-            'control': 'curated', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
+            'type': 'T4', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
+            'control': 'P1', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
+            'force_numerical_treatments' : False,
         },
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
     }
@@ -42,6 +43,7 @@ from scipy.stats import zscore
 import json
 import os
 import scipy.stats as stats
+import re
 
 # %%
 import matplotlib.pyplot as plt
@@ -60,6 +62,13 @@ class RefutationResult:
     def __init__(self, refutation_result=None, new_effect=None):
         self.refutation_result = refutation_result
         self.new_effect = new_effect
+
+# %%
+def extract_number(token: str) -> int:
+    match = re.search(r"\d+", token)
+    if not match:
+        raise ValueError(f"No digits found in token '{token}'.")
+    return int(match.group())
 
 # %%
 def compute_ATE_and_refute(causal_model, identified_estimand, method_name, method_params={}):
@@ -200,10 +209,13 @@ def compute_causal_effect_for_binary_treatments(causal_hypothesis_df, outcomes):
         causal_effect_dfs.append(result_df)
     return causal_effect_dfs
 
-def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes):
+def compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes, force_numerical_treatment=False):
     """
     Computes causal effects for categorical in the given DataFrame.
     """
+    if force_numerical_treatment:
+        causal_hypothesis_df['treatment'] = causal_hypothesis_df['treatment'].map(lambda t: extract_number(t))
+
     # Compute the minimum group size
     group_sizes = causal_hypothesis_df['treatment'].value_counts()
     min_size = group_sizes.min()
@@ -232,14 +244,14 @@ def compute_causal_effects_smells(causal_hypothesis_df, outcomes, binary_treatme
         print(f"=========== CAUSAL ANALYSIS FOR CODE SMELL-{s_msg_id} ===========")
         # Subset for current s_msg_id
         causal_hypothesis_subset = causal_hypothesis_df[causal_hypothesis_df['s_msg_id'] == s_msg_id].copy()
-        causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_subset, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_subset, outcomes)
+        causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_subset, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_subset, outcomes, params['intervention']['force_numerical_treatments'])
         s_msg_id_effects_df = pd.concat(causal_effect_dfs, ignore_index=True)
         s_msg_id_effects_df['s_msg_id'] = s_msg_id
         s_msg_id_effects[s_msg_id] = s_msg_id_effects_df
     return s_msg_id_effects
 
 def compute_causal_effect_hypothesis(causal_hypothesis_df, outcomes, binary_treatments=True):
-    causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_df, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes)
+    causal_effect_dfs = compute_causal_effect_for_binary_treatments(causal_hypothesis_df, outcomes) if binary_treatments else compute_causal_effect_for_categorical_treatments(causal_hypothesis_df, outcomes, params['intervention']['force_numerical_treatments'])
     return pd.concat(causal_effect_dfs, ignore_index=True)
 
 # %%
