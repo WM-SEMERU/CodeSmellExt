@@ -21,8 +21,8 @@ def default_params():
             'semantic' : [] + pos_utils.UNIVERSAL_SEMANTIC_TAGS,
         },
         'intervention' : {
-            'type': 'T4', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
-            'control': 'P1', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
+            'type': 'T1', # 'T1' for generation_type, 'T2' for model_size, 'T3' for model_architecture, 'T4' for prompt
+            'control': 'curated', # Each control is a baseline value from the selected intervention. (eg. 'curated' (base) for T1)
         },
         'cache_dir': '/workspaces/CodeSmells/datax/hugging_face_cache',
     }
@@ -265,7 +265,7 @@ def execute_analysis_per_smell(outcomes, causal_hypothesis_df):
         causal_effects_outcome_df.to_json(f"{output_path}/{outcome}.json")
 
     for outcome in outcomes:
-        run_and_store(outcome, binary_treatments=False, subfolder="/categorial")
+        run_and_store(outcome, binary_treatments=False, subfolder="/categorical")
         run_and_store(outcome, binary_treatments=True)
 
 # %%

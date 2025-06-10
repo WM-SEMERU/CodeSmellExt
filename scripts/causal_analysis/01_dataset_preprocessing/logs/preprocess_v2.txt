@@ -7,3 +7,63 @@ Appending semantic features to DataFrames...
 [append_semantic_features] Finished updating DataFrame. New shape: (21423, 54)
 [append_semantic_features] Called with DataFrame of shape (19849, 47) and 7 semantic features.
 [append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (19849, 54)
+[append_semantic_features] Called with DataFrame of shape (18849, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (18849, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (19931, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (19931, 54)
+[append_semantic_features] Called with DataFrame of shape (24016, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (24016, 54)
+[append_semantic_features] Called with DataFrame of shape (21059, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (21059, 54)
+[append_semantic_features] Called with DataFrame of shape (20499, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20499, 54)
+[append_semantic_features] Called with DataFrame of shape (20499, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20499, 54)
+[append_semantic_features] Called with DataFrame of shape (20499, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20499, 54)
+[append_semantic_features] Called with DataFrame of shape (20499, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20499, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (20499, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20499, 54)
+[append_semantic_features] Called with DataFrame of shape (20498, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20498, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+[append_semantic_features] Called with DataFrame of shape (20500, 47) and 7 semantic features.
+[append_semantic_features] Initialized semantic feature columns to 0.
+[append_semantic_features] Finished updating DataFrame. New shape: (20500, 54)
+Saving 7 DataFrames for generation_type
+Saved 7 DataFrames as JSON array to /workspaces/CodeSmells/data/extension/causality/dataset/T1.json
+Saving 4 DataFrames for model_size
+Saved 4 DataFrames as JSON array to /workspaces/CodeSmells/data/extension/causality/dataset/T2.json
+Saving 4 DataFrames for model_architecture
+Saved 4 DataFrames as JSON array to /workspaces/CodeSmells/data/extension/causality/dataset/T3.json
+Saving 4 DataFrames for prompt
+Saved 4 DataFrames as JSON array to /workspaces/CodeSmells/data/extension/causality/dataset/T4.json
