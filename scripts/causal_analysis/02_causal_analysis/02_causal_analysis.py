@@ -260,6 +260,15 @@ def create_folder(path):
         os.makedirs(path)
 
 # %% [markdown]
+# ### DATA TRANSFORMATIONS
+
+# %%
+# 3. Define the logit transform
+def logit_transform(x, eps=1e-9):
+    x_clipped = np.clip(x, eps, 1 - eps)
+    return np.log(x_clipped / (1 - x_clipped))
+
+# %% [markdown]
 # ### EXECUTE
 
 # %%
@@ -298,9 +307,19 @@ def execute_analysis(outcomes, causal_hypothesis_df):
         run_and_store(outcome, binary_treatments=True, suffix="_ALL")
 
 # %%
+### Add transformations
+for outcome in params['causal_analysis']['potential_outcomes']:
+    causal_hypothesis_df[outcome + '_trans'] = logit_transform(causal_hypothesis_df[outcome])
+
+# %%
+potential_outcomes = params['causal_analysis']['potential_outcomes']
+potential_outcomes = potential_outcomes + [outcome + '_trans' for outcome in potential_outcomes]
+
+
+# %%
 print("########################### Executing causal analysis per smell ###########################")
-execute_analysis_per_smell(params['causal_analysis']['potential_outcomes'], causal_hypothesis_df)
+execute_analysis_per_smell(potential_outcomes, causal_hypothesis_df)
 print("########################### Executing causal analysis ALL smells ###########################")
-execute_analysis(params['causal_analysis']['potential_outcomes'], causal_hypothesis_df)
+execute_analysis(potential_outcomes, causal_hypothesis_df)
 
 
