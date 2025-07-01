@@ -76,7 +76,7 @@ logging.basicConfig(filename=log_file, format='%(asctime)s : %(levelname)s : %(m
 # #### GPU
 
 # %%
-! nvidia-smi
+#! nvidia-smi
 
 # %%
 torch.__version__
