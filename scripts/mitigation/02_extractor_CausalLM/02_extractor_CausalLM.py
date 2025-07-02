@@ -9,7 +9,7 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/data/extension/mitigation/datasets',
-            'current': 'base', # 'base' or 'prompted',
+            'current': 'prompted', # 'base' or 'prompted',
             'content_column': 'code',
             'sampling_size': 500,
             'prompt_column': 'prompt',

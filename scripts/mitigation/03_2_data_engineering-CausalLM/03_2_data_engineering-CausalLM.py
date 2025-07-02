@@ -8,7 +8,7 @@ def default_params():
         'quantization': 'none', #['none',"int4", "int8", "float32", "float16"]
         'dataset': {
             'path': '/workspaces/CodeSmells/data/extension/mitigation/datasets',
-            'current': 'base', # 'base' or 'prompted',
+            'current': 'prompted', # 'base' or 'prompted',
             'content_column': 'code',
             'sampling_size': 500,
             'prompt_column': 'prompt',
@@ -78,10 +78,10 @@ logging.basicConfig(filename=log_file, format='%(asctime)s : %(levelname)s : %(m
 # #### Dataset
 
 # %%
-print(f"{params['dataset']['path']}/{params['dataset']['current']}_{params['dataset']['sampling_size']}.json")
+print(f"{params['dataset']['path']}/{params['dataset']['current']}.json")
 
 # %%
-df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['dataset']['current']}_{params['dataset']['sampling_size']}.json", )
+df_dataset = pd.read_json(f"{params['dataset']['path']}/{params['dataset']['current']}.json", )
 
 # %%
 df_dataset
@@ -122,7 +122,8 @@ print(tokenizer.__class__)
 
 # %%
 df_dataset['input_ids'] = df_dataset[params['dataset']['content_column']].map(lambda code: tokenizer.encode(code, add_special_tokens=False))
-df_dataset['prompt_ids'] = df_dataset[params['dataset']['prompt_column']].map(lambda code: tokenizer.encode(code, add_special_tokens=False))
+if params['dataset']['current'] == 'prompted':
+    df_dataset['prompt_ids'] = df_dataset[params['dataset']['prompt_column']].map(lambda code: tokenizer.encode(code, add_special_tokens=False))
 df_dataset['input_lenght'] = df_dataset['input_ids'].map(lambda input_ids: len(input_ids))
 
 # %% [markdown]
